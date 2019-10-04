@@ -1,3 +1,4 @@
+import 'package:Tazkrtak/signUp.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget{
@@ -27,7 +28,6 @@ class _signIn extends State<SignIn>{
                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: new TextFormField(
-                      textDirection: TextDirection.rtl,
                       decoration: new InputDecoration(
                           labelText: 'الرقم القومى',
                           labelStyle: TextStyle(
@@ -48,7 +48,6 @@ class _signIn extends State<SignIn>{
                   Directionality(
                     textDirection: TextDirection.rtl,
                     child: new TextFormField(
-                      textDirection: TextDirection.rtl,
                       obscureText: true,
                       decoration: new InputDecoration(
                           labelText: 'كلمة المرور',
@@ -97,7 +96,10 @@ class _signIn extends State<SignIn>{
                       shape: RoundedRectangleBorder(
                           side: new BorderSide(color: Colors.green, width: 2.5),
                           borderRadius: new BorderRadius.circular(10.0)),
-                      onPressed: () {},
+                      onPressed: () {  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUp()),
+                    );},
                     ),
                   ),
                 ],
@@ -106,3 +108,4 @@ class _signIn extends State<SignIn>{
       ),
     );
   }
+}
