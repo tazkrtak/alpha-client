@@ -1,13 +1,45 @@
 import 'package:Tazkrtak/mainApp.dart';
+import 'package:Tazkrtak/models/user.dart';
 import 'package:Tazkrtak/signUp.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignIn extends StatefulWidget {
   @override
-  _signIn createState() => new _signIn();
+  _SignIn createState() => new _SignIn();
 }
 
-class _signIn extends State<SignIn> {
+class _SignIn extends State<SignIn> {
+  TextEditingController _nationalIdController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+
+  String _nationalId = "";
+  String _password = "";
+
+  signIn() {
+    setState(() {
+      _nationalId = _nationalIdController.text;
+      _password = _passwordController.text;
+    });
+
+    Firestore.instance
+        .collection('users')
+        .document(_nationalId)
+        .get()
+        .then((DocumentSnapshot ds) {
+      User().name = ds['name'];
+      User().email = ds['email'];
+      User().password = ds['password'];
+      User().nationalId = ds['national ID'];
+      User().phoneNumber = ds['phone number'];
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Main()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +62,7 @@ class _signIn extends State<SignIn> {
                 textDirection: TextDirection.rtl,
                 child: new TextFormField(
                   obscureText: true,
+                  controller: _nationalIdController,
                   decoration: new InputDecoration(
                       labelText: 'الرقم القومى',
                       labelStyle: TextStyle(
@@ -50,6 +83,7 @@ class _signIn extends State<SignIn> {
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: new TextFormField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: new InputDecoration(
                       labelText: 'كلمة المرور',
@@ -80,10 +114,7 @@ class _signIn extends State<SignIn> {
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Main()),
-                    );
+                    signIn();
                   },
                 ),
               ),

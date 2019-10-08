@@ -1,5 +1,8 @@
+import 'package:Tazkrtak/mainApp.dart';
+import 'package:Tazkrtak/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUp extends StatefulWidget {
   static String tag = 'test-page';
@@ -20,6 +23,36 @@ class SignUp3 extends StatefulWidget {
 }
 
 class _SignUp3 extends State<SignUp3> {
+  TextEditingController _passwordController = new TextEditingController();
+  String _password = "";
+  TextEditingController _confirmPasswordController =
+      new TextEditingController();
+  String _confirmPassword = "";
+
+  void signUp() {
+    setState(() {
+      _password = _passwordController.text;
+      _confirmPassword = _confirmPasswordController.text;
+    });
+
+    if (_password == _confirmPassword) {
+      User().password = _password;
+    }
+
+    Firestore.instance.collection('users').document(User().nationalId).setData({
+      'name': User().name,
+      'email': User().email,
+      'national ID': User().nationalId,
+      'phone number': User().phoneNumber,
+      'password': User().password
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Main()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +81,7 @@ class _SignUp3 extends State<SignUp3> {
                 textDirection: TextDirection.rtl,
                 child: new TextFormField(
                   obscureText: true,
+                  controller: _passwordController,
                   decoration: new InputDecoration(
                       labelText: 'كلمة المرور',
                       labelStyle: TextStyle(
@@ -68,6 +102,7 @@ class _SignUp3 extends State<SignUp3> {
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: new TextFormField(
+                  controller: _confirmPasswordController,
                   decoration: new InputDecoration(
                       labelText: 'تأكيد كلمة المرور ',
                       labelStyle: TextStyle(
@@ -97,7 +132,9 @@ class _SignUp3 extends State<SignUp3> {
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    signUp();
+                  },
                 ),
               ),
             ],
@@ -109,6 +146,20 @@ class _SignUp3 extends State<SignUp3> {
 }
 
 class _SignUp2 extends State<SignUp2> {
+  TextEditingController _nationalIdController = new TextEditingController();
+  String _nationalId = "";
+  TextEditingController _phoneNumberController = new TextEditingController();
+  String _phoneNumber = "";
+
+  void addToModel() {
+    setState(() {
+      _nationalId = _nationalIdController.text;
+      _phoneNumber = _phoneNumberController.text;
+    });
+    User().nationalId = _nationalId;
+    User().phoneNumber = _phoneNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,6 +187,7 @@ class _SignUp2 extends State<SignUp2> {
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: new TextFormField(
+                  controller: _nationalIdController,
                   decoration: new InputDecoration(
                       labelText: 'الرقم القومى',
                       labelStyle: TextStyle(
@@ -156,6 +208,7 @@ class _SignUp2 extends State<SignUp2> {
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: new TextFormField(
+                  controller: _phoneNumberController,
                   decoration: new InputDecoration(
                       labelText: 'رقم الهاتف',
                       labelStyle: TextStyle(
@@ -186,6 +239,7 @@ class _SignUp2 extends State<SignUp2> {
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
+                    addToModel();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SignUp3()),
@@ -204,6 +258,19 @@ class _SignUp2 extends State<SignUp2> {
 class _SignUp extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController _nameController = TextEditingController();
+    TextEditingController _emailController = new TextEditingController();
+    String _name = "";
+    String _email = "";
+    void addToModel() {
+      setState(() {
+        _name = _nameController.text;
+        _email = _emailController.text;
+      });
+      User().name = _name;
+      User().email = _email;
+    }
+
     return Scaffold(
       body: new Container(
         padding: EdgeInsets.all(16),
@@ -230,6 +297,7 @@ class _SignUp extends State<SignUp> {
                 Directionality(
                   textDirection: TextDirection.rtl,
                   child: new TextFormField(
+                    controller: _nameController,
                     decoration: new InputDecoration(
                         labelText: 'الأسم',
                         labelStyle: TextStyle(
@@ -252,6 +320,7 @@ class _SignUp extends State<SignUp> {
                 Directionality(
                   textDirection: TextDirection.rtl,
                   child: new TextFormField(
+                    controller: _emailController,
                     decoration: new InputDecoration(
                         labelText: 'البريد الالكترونى',
                         labelStyle: TextStyle(
@@ -284,6 +353,7 @@ class _SignUp extends State<SignUp> {
                     shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(10.0)),
                     onPressed: () {
+                      addToModel();
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SignUp2()),
