@@ -1,3 +1,4 @@
+import 'package:Tazkrtak/appLocalizations.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -15,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _Counter = 1;
-  int _priceCounter =5;
+  int _priceCounter = 5;
   String secret = 'lorem-ipsum';
   int _totp;
   int _counterStart = 30;
@@ -29,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
   }
+
   void _incrementCounter() {
     setState(() {
       _Counter++;
@@ -36,19 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Price Counter
-   void _decremenetPriceCounter() {
+  void _decremenetPriceCounter() {
     setState(() {
       if (_priceCounter > 0) {
         _priceCounter--;
       }
     });
   }
+
   void _incrementPriceCounter() {
     setState(() {
       _priceCounter++;
     });
   }
-
 
   void startTimer() {
     CountdownTimer countDownTimer = new CountdownTimer(
@@ -86,10 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-              CircularPercentIndicator(
+            CircularPercentIndicator(
               radius: 50.0,
               lineWidth: 5.0,
-              percent: _counterCurrent*(1/30),
+              percent: _counterCurrent * (1 / 30),
               center: new Icon(
                 Icons.directions_bus,
                 size: 30.0,
@@ -105,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
               gapless: true,
               foregroundColor: Colors.green[700],
             ),
-            Text('العدد',
+            Text(AppLocalizations.of(context).translate('quantity'),
                 style: TextStyle(color: Colors.black87, fontSize: 24)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -121,11 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icons.remove,
                         color: Colors.white,
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         _decremenetCounter();
                       },
-                    )
-                ),
+                    )),
                 Padding(padding: EdgeInsets.only(right: 32)),
                 Text(_Counter.toString(),
                     style: TextStyle(color: Colors.black87, fontSize: 24)),
@@ -141,32 +142,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icons.add,
                         color: Colors.white,
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         _incrementCounter();
                       },
-                    )
-                ),
+                    )),
               ],
             ),
-             Text('السعر',
+            Text(AppLocalizations.of(context).translate('fees'),
                 style: TextStyle(color: Colors.black87, fontSize: 24)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                width: 40,
-                height: 40,
-                child: new RawMaterialButton(
-                  fillColor: Colors.red,
-                  shape: new CircleBorder(),
-                  elevation: 4,
-                  child: new Icon(
-                   Icons.remove,
-                    color: Colors.white,
-                  ),
-                  onPressed: _decremenetPriceCounter,
-                )
-                ),
+                    width: 40,
+                    height: 40,
+                    child: new RawMaterialButton(
+                      fillColor: Colors.red,
+                      shape: new CircleBorder(),
+                      elevation: 4,
+                      child: new Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                      ),
+                      onPressed: _decremenetPriceCounter,
+                    )),
                 Padding(padding: EdgeInsets.only(right: 32)),
                 Text(_priceCounter.toString(),
                     style: TextStyle(color: Colors.black87, fontSize: 24)),
@@ -182,12 +181,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icons.add,
                         color: Colors.white,
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         _incrementPriceCounter();
-                        startTimer();/*ToDo: Add this line to work automatically*/
+                        startTimer(); /*ToDo: Add this line to work automatically*/
                       },
-                    )
-                ),
+                    )),
               ],
             ),
           ],

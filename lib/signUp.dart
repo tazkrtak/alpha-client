@@ -1,3 +1,4 @@
+import 'package:Tazkrtak/appLocalizations.dart';
 import 'package:Tazkrtak/mainApp.dart';
 import 'package:Tazkrtak/models/user.dart';
 import 'package:flutter/material.dart';
@@ -77,47 +78,43 @@ class _SignUp3 extends State<SignUp3> {
                 ),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: new TextFormField(
-                  obscureText: true,
-                  controller: _passwordController,
-                  decoration: new InputDecoration(
-                      labelText: 'كلمة المرور',
-                      labelStyle: TextStyle(
-                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.green, width: 2.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide:
-                            BorderSide(color: Colors.blueGrey, width: 2.5),
-                      )),
-                ),
+              new TextFormField(
+                obscureText: true,
+                controller: _passwordController,
+                decoration: new InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('password'),
+                    labelStyle: TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.green, width: 2.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide:
+                          BorderSide(color: Colors.blueGrey, width: 2.5),
+                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: new TextFormField(
-                  controller: _confirmPasswordController,
-                  decoration: new InputDecoration(
-                      labelText: 'تأكيد كلمة المرور ',
-                      labelStyle: TextStyle(
-                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.green, width: 2.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide:
-                            BorderSide(color: Colors.blueGrey, width: 2.5),
-                      )),
-                ),
+              new TextFormField(
+                controller: _confirmPasswordController,
+                decoration: new InputDecoration(
+                    labelText: AppLocalizations.of(context)
+                        .translate('password_confirm'),
+                    labelStyle: TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.green, width: 2.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide:
+                          BorderSide(color: Colors.blueGrey, width: 2.5),
+                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
               new ButtonTheme(
@@ -125,7 +122,8 @@ class _SignUp3 extends State<SignUp3> {
                 splashColor: Colors.greenAccent,
                 child: new RaisedButton(
                   textTheme: ButtonTextTheme.accent,
-                  child: new Text('إنشاء حساب',
+                  child: new Text(
+                      AppLocalizations.of(context).translate('sign_up'),
                       style: new TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold)),
                   color: Colors.green,
@@ -184,46 +182,42 @@ class _SignUp2 extends State<SignUp2> {
                 ),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: new TextFormField(
-                  controller: _nationalIdController,
-                  decoration: new InputDecoration(
-                      labelText: 'الرقم القومى',
-                      labelStyle: TextStyle(
-                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.green, width: 2.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide:
-                            BorderSide(color: Colors.blueGrey, width: 2.5),
-                      )),
-                ),
+              new TextFormField(
+                controller: _nationalIdController,
+                decoration: new InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('national_id'),
+                    labelStyle: TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.green, width: 2.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide:
+                          BorderSide(color: Colors.blueGrey, width: 2.5),
+                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: new TextFormField(
-                  controller: _phoneNumberController,
-                  decoration: new InputDecoration(
-                      labelText: 'رقم الهاتف',
-                      labelStyle: TextStyle(
-                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.green, width: 2.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide:
-                            BorderSide(color: Colors.blueGrey, width: 2.5),
-                      )),
-                ),
+              new TextFormField(
+                controller: _phoneNumberController,
+                decoration: new InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('mobile_number'),
+                    labelStyle: TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.green, width: 2.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide:
+                          BorderSide(color: Colors.blueGrey, width: 2.5),
+                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
               new ButtonTheme(
@@ -231,7 +225,8 @@ class _SignUp2 extends State<SignUp2> {
                 splashColor: Colors.greenAccent,
                 child: new RaisedButton(
                   textTheme: ButtonTextTheme.accent,
-                  child: new Text('استمرار',
+                  child: new Text(
+                      AppLocalizations.of(context).translate('continue'),
                       style: new TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold)),
                   color: Colors.green,
@@ -294,50 +289,41 @@ class _SignUp extends State<SignUp> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 32)),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: new TextFormField(
-                    controller: _nameController,
-                    decoration: new InputDecoration(
-                        labelText: 'الأسم',
-                        labelStyle: TextStyle(
-                            color: Colors.blueGrey,
-                            fontWeight: FontWeight.bold),
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide:
-                              BorderSide(color: Colors.green, width: 2.5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide:
-                              BorderSide(color: Colors.blueGrey, width: 2.5),
-                        )),
-                  ),
+                new TextFormField(
+                  controller: _nameController,
+                  decoration: new InputDecoration(
+                      labelText: AppLocalizations.of(context).translate('name'),
+                      labelStyle: TextStyle(
+                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide(color: Colors.green, width: 2.5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide:
+                            BorderSide(color: Colors.blueGrey, width: 2.5),
+                      )),
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 32)),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: new TextFormField(
-                    controller: _emailController,
-                    decoration: new InputDecoration(
-                        labelText: 'البريد الالكترونى',
-                        labelStyle: TextStyle(
-                            color: Colors.blueGrey,
-                            fontWeight: FontWeight.bold),
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide:
-                              BorderSide(color: Colors.green, width: 2.5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide:
-                              BorderSide(color: Colors.blueGrey, width: 2.5),
-                        )),
-                  ),
+                new TextFormField(
+                  controller: _emailController,
+                  decoration: new InputDecoration(
+                      labelText:
+                          AppLocalizations.of(context).translate('email'),
+                      labelStyle: TextStyle(
+                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide: BorderSide(color: Colors.green, width: 2.5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderSide:
+                            BorderSide(color: Colors.blueGrey, width: 2.5),
+                      )),
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 32)),
                 new ButtonTheme(
@@ -345,7 +331,8 @@ class _SignUp extends State<SignUp> {
                   splashColor: Colors.greenAccent,
                   child: new RaisedButton(
                     textTheme: ButtonTextTheme.accent,
-                    child: new Text('استمرار',
+                    child: new Text(
+                        AppLocalizations.of(context).translate('continue'),
                         style: new TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     color: Colors.green,

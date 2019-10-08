@@ -1,3 +1,4 @@
+import 'package:Tazkrtak/appLocalizations.dart';
 import 'package:Tazkrtak/mainApp.dart';
 import 'package:Tazkrtak/models/user.dart';
 import 'package:Tazkrtak/signUp.dart';
@@ -58,47 +59,43 @@ class _SignIn extends State<SignIn> {
                 radius: 64,
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: new TextFormField(
-                  obscureText: true,
-                  controller: _nationalIdController,
-                  decoration: new InputDecoration(
-                      labelText: 'الرقم القومى',
-                      labelStyle: TextStyle(
-                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.green, width: 2.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide:
-                            BorderSide(color: Colors.blueGrey, width: 2.5),
-                      )),
-                ),
+              new TextFormField(
+                obscureText: true,
+                controller: _nationalIdController,
+                decoration: new InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('national_id'),
+                    labelStyle: TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.green, width: 2.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide:
+                          BorderSide(color: Colors.blueGrey, width: 2.5),
+                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: new TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: new InputDecoration(
-                      labelText: 'كلمة المرور',
-                      labelStyle: TextStyle(
-                          color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                      border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.green, width: 2.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.grey, width: 2.5),
-                      )),
-                ),
+              new TextFormField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: new InputDecoration(
+                    labelText:
+                        AppLocalizations.of(context).translate('password'),
+                    labelStyle: TextStyle(
+                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                    border: InputBorder.none,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.green, width: 2.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.grey, width: 2.5),
+                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 72)),
               new ButtonTheme(
@@ -106,7 +103,8 @@ class _SignIn extends State<SignIn> {
                 splashColor: Colors.greenAccent,
                 child: new RaisedButton(
                   textTheme: ButtonTextTheme.accent,
-                  child: new Text('تسجيل دخول',
+                  child: new Text(
+                      AppLocalizations.of(context).translate('sign_in'),
                       style: new TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold)),
                   color: Colors.green,
@@ -124,7 +122,8 @@ class _SignIn extends State<SignIn> {
                 splashColor: Colors.greenAccent,
                 child: new RaisedButton(
                   textTheme: ButtonTextTheme.accent,
-                  child: new Text('إنشاء حساب جديد',
+                  child: new Text(
+                      AppLocalizations.of(context).translate('sign_up'),
                       style: new TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

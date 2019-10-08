@@ -1,0 +1,14 @@
+{
+  "app_name": "Tazkrtak",
+  "sign_in": "Sign in",
+  "sign_up": "Sign Up",
+  "national_id": "National ID",
+  "password": "Password",
+  "password_confirm": "Confirm Password",
+  "mobile_number": "Mobile Number",
+  "name": "Name",
+  "email": "Email",
+  "quantity": "Quantity",
+  "fees": "Fees",
+  "continue": "Continue"
+}
