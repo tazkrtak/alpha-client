@@ -1,21 +1,22 @@
-import 'package:Tazkrtak/appLocalizations.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:quiver/async.dart';
-import 'otp.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+import '../util/app_localizations.dart';
+import '../util/totp.dart';
+
+class TicketTab extends StatefulWidget {
+  TicketTab({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TicketTabState createState() => _TicketTabState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _Counter = 1;
+class _TicketTabState extends State<TicketTab> {
+  int _counter = 1;
   int _priceCounter = 5;
   String secret = 'lorem-ipsum';
   int _totp;
@@ -23,17 +24,17 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counterCurrent = 30;
 
   // Money Counter
-  void _decremenetCounter() {
+  void _decrementCounter() {
     setState(() {
-      if (_Counter > 1) {
-        _Counter--;
+      if (_counter > 1) {
+        _counter--;
       }
     });
   }
 
   void _incrementCounter() {
     setState(() {
-      _Counter++;
+      _counter++;
     });
   }
 
@@ -68,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     countDownListener.onDone(() {
       setState(() {
-        _totp = OTP.generateTOTPCode(
+        _totp = TOTP.generateTOTPCode(
             secret, DateTime.now().toUtc().millisecondsSinceEpoch);
       });
       startTimer();
@@ -124,11 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        _decremenetCounter();
+                        _decrementCounter();
                       },
                     )),
                 Padding(padding: EdgeInsets.only(right: 32)),
-                Text(_Counter.toString(),
+                Text(_counter.toString(),
                     style: TextStyle(color: Colors.black87, fontSize: 24)),
                 Padding(padding: EdgeInsets.only(right: 32)),
                 Container(

@@ -1,11 +1,12 @@
-import 'package:Tazkrtak/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'appLocalizations.dart';
 
-void main() => runApp(MyApp());
+import 'signing/sign_in_screen.dart';
+import 'util/app_localizations.dart';
 
-class MyApp extends StatelessWidget {
+void main() => runApp(App());
+
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home: SignIn(),
+      home: SignInScreen(),
       debugShowCheckedModeBanner: false,
       supportedLocales: [Locale('en'), Locale('ar', 'EG')],
       localizationsDelegates: [

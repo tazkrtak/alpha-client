@@ -1,16 +1,17 @@
-import 'package:Tazkrtak/appLocalizations.dart';
-import 'package:Tazkrtak/mainApp.dart';
-import 'package:Tazkrtak/models/user.dart';
-import 'package:Tazkrtak/signUp.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
+import '../app/home_screen.dart';
+import '../models/user.dart';
+import '../util/app_localizations.dart';
+import 'sign_up_screen_1.dart';
+
+class SignInScreen extends StatefulWidget {
   @override
   _SignIn createState() => new _SignIn();
 }
 
-class _SignIn extends State<SignIn> {
+class _SignIn extends State<SignInScreen> {
   TextEditingController _nationalIdController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
 
@@ -37,7 +38,7 @@ class _SignIn extends State<SignIn> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Main()),
+      MaterialPageRoute(builder: (context) => HomeScreen()),
     );
   }
 
@@ -136,7 +137,7 @@ class _SignIn extends State<SignIn> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
+                      MaterialPageRoute(builder: (context) => SignUpScreen1()),
                     );
                   },
                 ),
