@@ -3,60 +3,24 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:quiver/async.dart';
 
-import '../util/app_localizations.dart';
 import '../util/totp.dart';
+import '../widgets/counter.dart';
 
 class TicketTab extends StatefulWidget {
-  TicketTab({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _TicketTabState createState() => _TicketTabState();
 }
 
 class _TicketTabState extends State<TicketTab> {
-  int _counter = 1;
-  int _priceCounter = 5;
   String secret = 'lorem-ipsum';
   int _totp;
   int _counterStart = 30;
   int _counterCurrent = 30;
 
-  // Money Counter
-  void _decrementCounter() {
-    setState(() {
-      if (_counter > 1) {
-        _counter--;
-      }
-    });
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  // Price Counter
-  void _decremenetPriceCounter() {
-    setState(() {
-      if (_priceCounter > 0) {
-        _priceCounter--;
-      }
-    });
-  }
-
-  void _incrementPriceCounter() {
-    setState(() {
-      _priceCounter++;
-    });
-  }
-
   void startTimer() {
-    CountdownTimer countDownTimer = new CountdownTimer(
-      new Duration(seconds: _counterStart),
-      new Duration(seconds: 1),
+    CountdownTimer countDownTimer = CountdownTimer(
+      Duration(seconds: _counterStart),
+      Duration(seconds: 1),
     );
 
     var countDownListener = countDownTimer.listen(null);
@@ -93,7 +57,7 @@ class _TicketTabState extends State<TicketTab> {
               radius: 50.0,
               lineWidth: 5.0,
               percent: _counterCurrent * (1 / 30),
-              center: new Icon(
+              center: Icon(
                 Icons.directions_bus,
                 size: 30.0,
                 color: Colors.green,
@@ -108,86 +72,13 @@ class _TicketTabState extends State<TicketTab> {
               gapless: true,
               foregroundColor: Colors.green[700],
             ),
-            Text(AppLocalizations.of(context).translate('quantity'),
-                style: TextStyle(color: Colors.black87, fontSize: 24)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    width: 40,
-                    height: 40,
-                    child: new RawMaterialButton(
-                      fillColor: Colors.red,
-                      shape: new CircleBorder(),
-                      elevation: 4,
-                      child: new Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        _decrementCounter();
-                      },
-                    )),
-                Padding(padding: EdgeInsets.only(right: 32)),
-                Text(_counter.toString(),
-                    style: TextStyle(color: Colors.black87, fontSize: 24)),
-                Padding(padding: EdgeInsets.only(right: 32)),
-                Container(
-                    width: 40,
-                    height: 40,
-                    child: new RawMaterialButton(
-                      fillColor: Colors.green,
-                      shape: new CircleBorder(),
-                      elevation: 4,
-                      child: new Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        _incrementCounter();
-                      },
-                    )),
-              ],
+            Counter(
+              titleKey: 'quantity',
+              initialValue: 1,
             ),
-            Text(AppLocalizations.of(context).translate('fees'),
-                style: TextStyle(color: Colors.black87, fontSize: 24)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    width: 40,
-                    height: 40,
-                    child: new RawMaterialButton(
-                      fillColor: Colors.red,
-                      shape: new CircleBorder(),
-                      elevation: 4,
-                      child: new Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                      ),
-                      onPressed: _decremenetPriceCounter,
-                    )),
-                Padding(padding: EdgeInsets.only(right: 32)),
-                Text(_priceCounter.toString(),
-                    style: TextStyle(color: Colors.black87, fontSize: 24)),
-                Padding(padding: EdgeInsets.only(right: 32)),
-                Container(
-                    width: 40,
-                    height: 40,
-                    child: new RawMaterialButton(
-                      fillColor: Colors.green,
-                      shape: new CircleBorder(),
-                      elevation: 4,
-                      child: new Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        _incrementPriceCounter();
-                        startTimer(); /*ToDo: Add this line to work automatically*/
-                      },
-                    )),
-              ],
+            Counter(
+              titleKey: 'fees',
+              initialValue: 5,
             ),
           ],
         ),
