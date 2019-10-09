@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:quiver/async.dart';
 
+import '../blocs/counter_bloc/bloc.dart';
 import '../util/totp.dart';
 import '../widgets/counter.dart';
 
@@ -48,6 +50,10 @@ class _TicketTabState extends State<TicketTab> {
 
   @override
   Widget build(BuildContext context) {
+    print(context);
+    final QuantityBloc quantityBloc = BlocProvider.of<QuantityBloc>(context);
+    final FeesBloc priceBloc = BlocProvider.of<FeesBloc>(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -72,13 +78,19 @@ class _TicketTabState extends State<TicketTab> {
               gapless: true,
               foregroundColor: Colors.green[700],
             ),
-            Counter(
-              titleKey: 'quantity',
-              initialValue: 1,
+            BlocBuilder<QuantityBloc, int>(
+              builder: (context, state) => Counter(
+                titleKey: 'quantity',
+                value: state,
+                bloc: quantityBloc,
+              ),
             ),
-            Counter(
-              titleKey: 'fees',
-              initialValue: 5,
+            BlocBuilder<FeesBloc, int>(
+              builder: (context, state) => Counter(
+                titleKey: 'fees',
+                value: state,
+                bloc: priceBloc,
+              ),
             ),
           ],
         ),

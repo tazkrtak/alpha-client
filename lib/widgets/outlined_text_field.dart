@@ -5,16 +5,23 @@ import '../util/app_localizations.dart';
 class OutlinedTextField extends StatelessWidget {
   final String textKey;
   final TextEditingController controller;
+  final bool obscureText;
+  final FormFieldValidator<String> validator;
 
-  OutlinedTextField({this.textKey, this.controller});
+  OutlinedTextField(
+      {this.textKey,
+      this.controller,
+      this.validator,
+      this.obscureText = false});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: true,
+      obscureText: obscureText,
       autovalidate: true,
       autocorrect: false,
       controller: controller,
+      validator: validator,
       decoration: InputDecoration(
           border: InputBorder.none,
           labelText: AppLocalizations.of(context).translate(textKey),

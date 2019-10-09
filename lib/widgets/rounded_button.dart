@@ -6,10 +6,8 @@ class RoundedButton extends StatelessWidget {
   final String textKey;
   final VoidCallback onPressed;
   final bool outlined;
-  final Widget navigateTo;
 
-  RoundedButton(
-      {this.textKey, this.onPressed, this.outlined = false, this.navigateTo});
+  RoundedButton({this.textKey, this.onPressed, this.outlined = false});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class RoundedButton extends StatelessWidget {
         color: outlined ? Colors.white : Colors.green,
         textColor: Colors.white,
         textTheme: ButtonTextTheme.accent,
-        onPressed: navigateTo == null ? onPressed : () => navigate(context),
+        onPressed: onPressed,
         shape: RoundedRectangleBorder(
           side: outlined
               ? BorderSide(color: Colors.green, width: 2.5)
@@ -36,10 +34,5 @@ class RoundedButton extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void navigate(BuildContext context) {
-    if (onPressed != null) onPressed();
-    Navigator.push(context, MaterialPageRoute(builder: (c) => navigateTo));
   }
 }

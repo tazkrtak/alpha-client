@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../blocs/counter_bloc/bloc.dart';
 import 'account_tab.dart';
 import 'ticket_tab.dart';
 
@@ -38,11 +40,21 @@ class _Main extends State<HomeScreen> {
             ),
           ),
         ),
-        body: TabBarView(
-          children: <Widget>[
-            TicketTab(),
-            AccountTab(),
+        body: MultiBlocProvider(
+          providers: [
+            BlocProvider<QuantityBloc>(
+              builder: (BuildContext context) => QuantityBloc(),
+            ),
+            BlocProvider<FeesBloc>(
+              builder: (BuildContext context) => FeesBloc(),
+            ),
           ],
+          child: TabBarView(
+            children: <Widget>[
+              TicketTab(),
+              AccountTab(),
+            ],
+          ),
         ),
       ),
     );
