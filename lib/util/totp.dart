@@ -15,7 +15,7 @@ class TOTP {
     var secretList = base32.decode(secret);
     var timeBytes = _int2bytes(time);
 
-    var hmac = new Hmac(sha1, secretList);
+    var hmac = Hmac(sha1, secretList);
     var hash = hmac.convert(timeBytes).bytes;
 
     int offset = hash[hash.length - 1] & 0xf;
@@ -29,8 +29,8 @@ class TOTP {
   }
 
   static String randomSecret() {
-    var rand = new Random();
-    var bytes = new List();
+    var rand = Random();
+    var bytes = List();
 
     for (int i = 0; i < 10; i++) {
       bytes.add(rand.nextInt(256));

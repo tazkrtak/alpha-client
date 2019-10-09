@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 
 import '../app/home_screen.dart';
 import '../models/user.dart';
-import '../util/app_localizations.dart';
+import '../widgets/outlined_text_field.dart';
+import '../widgets/rounded_button.dart';
 import 'sign_up_screen_1.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
-  _SignIn createState() => new _SignIn();
+  _SignInScreen createState() => _SignInScreen();
 }
 
-class _SignIn extends State<SignInScreen> {
-  TextEditingController _nationalIdController = new TextEditingController();
-  TextEditingController _passwordController = new TextEditingController();
+class _SignInScreen extends State<SignInScreen> {
+  TextEditingController _nationalIdController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   String _nationalId = "";
   String _password = "";
@@ -46,105 +47,41 @@ class _SignIn extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: new Container(
+      body: Container(
         padding: EdgeInsets.all(16),
-        child: new Center(
-            child: SingleChildScrollView(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              CircleAvatar(
-                child: Image.asset('assets/logo.png'),
-                backgroundColor: Colors.transparent,
-                radius: 64,
-              ),
-              Padding(padding: EdgeInsets.only(bottom: 32)),
-              new TextFormField(
-                obscureText: true,
-                controller: _nationalIdController,
-                decoration: new InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context).translate('national_id'),
-                    labelStyle: TextStyle(
-                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                    border: InputBorder.none,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(color: Colors.green, width: 2.5),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.5),
-                    )),
-              ),
-              Padding(padding: EdgeInsets.only(bottom: 32)),
-              new TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: new InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context).translate('password'),
-                    labelStyle: TextStyle(
-                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                    border: InputBorder.none,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(color: Colors.green, width: 2.5),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(color: Colors.grey, width: 2.5),
-                    )),
-              ),
-              Padding(padding: EdgeInsets.only(bottom: 72)),
-              new ButtonTheme(
-                height: 56,
-                splashColor: Colors.greenAccent,
-                child: new RaisedButton(
-                  textTheme: ButtonTextTheme.accent,
-                  child: new Text(
-                      AppLocalizations.of(context).translate('sign_in'),
-                      style: new TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  color: Colors.green,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    signIn();
-                  },
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                CircleAvatar(
+                  child: Image.asset('assets/logo.png'),
+                  backgroundColor: Colors.transparent,
+                  radius: 64,
                 ),
-              ),
-              Padding(padding: EdgeInsets.only(bottom: 16)),
-              new ButtonTheme(
-                height: 56,
-                splashColor: Colors.greenAccent,
-                child: new RaisedButton(
-                  textTheme: ButtonTextTheme.accent,
-                  child: new Text(
-                      AppLocalizations.of(context).translate('sign_up'),
-                      style: new TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green)),
-                  color: Colors.white,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      side: new BorderSide(color: Colors.green, width: 2.5),
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpScreen1()),
-                    );
-                  },
+                Padding(padding: EdgeInsets.only(bottom: 32)),
+                OutlinedTextField(
+                  textKey: 'national_id',
+                  controller: _nationalIdController,
                 ),
-              ),
-            ],
+                Padding(padding: EdgeInsets.only(bottom: 32)),
+                OutlinedTextField(
+                  textKey: 'password',
+                  controller: _passwordController,
+                ),
+                Padding(padding: EdgeInsets.only(bottom: 72)),
+                RoundedButton(textKey: 'sign_in', onPressed: signIn),
+                Padding(padding: EdgeInsets.only(bottom: 16)),
+                RoundedButton(
+                  textKey: 'sign_up',
+                  navigateTo: SignUpScreen1(),
+                  outlined: true,
+                ),
+              ],
+            ),
           ),
-        )),
+        ),
       ),
     );
   }

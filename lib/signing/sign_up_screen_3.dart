@@ -4,21 +4,20 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../app/home_screen.dart';
 import '../models/user.dart';
-import '../util/app_localizations.dart';
+import '../widgets/outlined_text_field.dart';
+import '../widgets/rounded_button.dart';
 
 class SignUpScreen3 extends StatefulWidget {
-  static String tag = 'test-page';
-
   @override
-  _SignUpScreen3 createState() => new _SignUpScreen3();
+  _SignUpScreen3 createState() => _SignUpScreen3();
 }
 
 class _SignUpScreen3 extends State<SignUpScreen3> {
-  TextEditingController _passwordController = new TextEditingController();
   String _password = "";
-  TextEditingController _confirmPasswordController =
-      new TextEditingController();
   String _confirmPassword = "";
+
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   void signUp() {
     setState(() {
@@ -37,26 +36,21 @@ class _SignUpScreen3 extends State<SignUpScreen3> {
       'phone number': User().phoneNumber,
       'password': User().password
     });
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new Container(
+      body: Container(
         padding: EdgeInsets.all(16),
-        child: new Container(
+        child: Container(
             child: SingleChildScrollView(
-          child: new Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(16.0),
-                child: new LinearPercentIndicator(
+                child: LinearPercentIndicator(
                   width: MediaQuery.of(context).size.width - 70,
                   animation: true,
                   lineHeight: 40.0,
@@ -68,62 +62,20 @@ class _SignUpScreen3 extends State<SignUpScreen3> {
                 ),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              new TextFormField(
-                obscureText: true,
+              OutlinedTextField(
+                textKey: 'password',
                 controller: _passwordController,
-                decoration: new InputDecoration(
-                    labelText:
-                        AppLocalizations.of(context).translate('password'),
-                    labelStyle: TextStyle(
-                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                    border: InputBorder.none,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(color: Colors.green, width: 2.5),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.5),
-                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              new TextFormField(
+              OutlinedTextField(
+                textKey: 'password_confirm',
                 controller: _confirmPasswordController,
-                decoration: new InputDecoration(
-                    labelText: AppLocalizations.of(context)
-                        .translate('password_confirm'),
-                    labelStyle: TextStyle(
-                        color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                    border: InputBorder.none,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide: BorderSide(color: Colors.green, width: 2.5),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      borderSide:
-                          BorderSide(color: Colors.blueGrey, width: 2.5),
-                    )),
               ),
               Padding(padding: EdgeInsets.only(bottom: 32)),
-              new ButtonTheme(
-                height: 56,
-                splashColor: Colors.greenAccent,
-                child: new RaisedButton(
-                  textTheme: ButtonTextTheme.accent,
-                  child: new Text(
-                      AppLocalizations.of(context).translate('sign_up'),
-                      style: new TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  color: Colors.green,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    signUp();
-                  },
-                ),
+              RoundedButton(
+                textKey: 'sign_up',
+                onPressed: signUp,
+                navigateTo: HomeScreen(),
               ),
             ],
           ),

@@ -5,7 +5,7 @@ import 'ticket_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  _Main createState() => new _Main();
+  _Main createState() => _Main();
 }
 
 class _Main extends State<HomeScreen> {
