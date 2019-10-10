@@ -1,87 +1,159 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../app/home_screen.dart';
-import '../models/user.dart';
+import '../blocs/authentication_bloc/bloc.dart';
+import '../blocs/sign_in_bloc/bloc.dart';
+import '../blocs/sign_up_bloc/sign_up_bloc.dart';
 import '../widgets/outlined_text_field.dart';
 import '../widgets/rounded_button.dart';
 import 'sign_up_screen_1.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   @override
-  _SignInScreen createState() => _SignInScreen();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocProvider<SignInBloc>(
+        builder: (context) => SignInBloc(),
+        child: _SignInForm(),
+      ),
+    );
+  }
 }
 
-class _SignInScreen extends State<SignInScreen> {
+class _SignInForm extends StatefulWidget {
+  @override
+  _SignInFormState createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<_SignInForm> {
   TextEditingController _nationalIdController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  String _nationalId = "";
-  String _password = "";
+  SignInBloc _signInBloc;
 
-  signIn() {
-    setState(() {
-      _nationalId = _nationalIdController.text;
-      _password = _passwordController.text;
-    });
+  bool get isPopulated =>
+      _nationalIdController.text.isNotEmpty &&
+      _passwordController.text.isNotEmpty;
 
-    Firestore.instance
-        .collection('users')
-        .document(_nationalId)
-        .get()
-        .then((DocumentSnapshot ds) {
-      User().name = ds['name'];
-      User().email = ds['email'];
-      User().password = ds['password'];
-      User().nationalId = ds['national ID'];
-      User().phoneNumber = ds['phone number'];
-    });
+  bool isLoginButtonEnabled(SignInState state) {
+    return state.isFormValid && isPopulated && !state.isSubmitting;
+  }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+  @override
+  void initState() {
+    super.initState();
+    _signInBloc = BlocProvider.of<SignInBloc>(context);
+    _nationalIdController.addListener(_onEmailChanged);
+    _passwordController.addListener(_onPasswordChanged);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                CircleAvatar(
-                  child: Image.asset('assets/logo.png'),
-                  backgroundColor: Colors.transparent,
-                  radius: 64,
+    return BlocListener<SignInBloc, SignInState>(
+      listener: (context, state) {
+        if (state.isFailure) {
+          // TODO: Show "Failed to Sign in..." Snack bar.
+        }
+        if (state.isSubmitting) {
+          // TODO: Show "Signing in..." Snack bar.
+        }
+        if (state.isSuccess) {
+          BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (c) => HomeScreen()),
+          );
+        }
+      },
+      child: BlocBuilder<SignInBloc, SignInState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Container(
+              padding: EdgeInsets.all(16),
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      CircleAvatar(
+                        child: Image.asset('assets/logo.png'),
+                        backgroundColor: Colors.transparent,
+                        radius: 64,
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 32)),
+                      OutlinedTextField(
+                        textKey: 'national_id',
+                        controller: _nationalIdController,
+                        validator: (_) =>
+                            !state.isNationalIdValid ? 'Invalid Id' : null,
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 32)),
+                      OutlinedTextField(
+                        textKey: 'password',
+                        obscureText: true,
+                        controller: _passwordController,
+                        validator: (_) =>
+                            !state.isPasswordValid ? 'Invalid Password' : null,
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 72)),
+                      RoundedButton(
+                        textKey: 'sign_in',
+                        onPressed: isLoginButtonEnabled(state)
+                            ? _onFormSubmitted
+                            : null,
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 16)),
+                      RoundedButton(
+                        textKey: 'sign_up',
+                        outlined: true,
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) => BlocProvider(
+                              builder: (context) => SignUpBloc(),
+                              child: SignUpScreen1(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                OutlinedTextField(
-                  textKey: 'national_id',
-                  controller: _nationalIdController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                OutlinedTextField(
-                  textKey: 'password',
-                  controller: _passwordController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 72)),
-                RoundedButton(textKey: 'sign_in', onPressed: signIn),
-                Padding(padding: EdgeInsets.only(bottom: 16)),
-                RoundedButton(
-                  textKey: 'sign_up',
-                  navigateTo: SignUpScreen1(),
-                  outlined: true,
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _nationalIdController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _onEmailChanged() {
+    _signInBloc.dispatch(
+      NationalIdChanged(nationalId: _nationalIdController.text),
+    );
+  }
+
+  void _onPasswordChanged() {
+    _signInBloc.dispatch(
+      PasswordChanged(password: _passwordController.text),
+    );
+  }
+
+  void _onFormSubmitted() {
+    _signInBloc.dispatch(
+      SignInPressed(
+        nationalId: _nationalIdController.text,
+        password: _passwordController.text,
       ),
     );
   }

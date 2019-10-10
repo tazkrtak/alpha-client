@@ -1,75 +1,156 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../app/home_screen.dart';
+import '../blocs/authentication_bloc/bloc.dart';
+import '../blocs/sign_up_bloc/bloc.dart';
 import '../models/user.dart';
 import '../widgets/outlined_text_field.dart';
+import '../widgets/progress_bar.dart';
 import '../widgets/rounded_button.dart';
-import 'sign_up_screen_3.dart';
 
-class SignUpScreen2 extends StatefulWidget {
+class SignUpScreen2 extends StatelessWidget {
   @override
-  _SignUpScreen2 createState() => _SignUpScreen2();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocProvider<SignUpBloc>(
+        builder: (context) => SignUpBloc(),
+        child: _SignUpForm(),
+      ),
+    );
+  }
 }
 
-class _SignUpScreen2 extends State<SignUpScreen2> {
-  String _nationalId = "";
-  String _phoneNumber = "";
-  TextEditingController _nationalIdController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
+class _SignUpForm extends StatefulWidget {
+  @override
+  _SignUpFormState createState() => _SignUpFormState();
+}
 
-  void addToModel() {
-    setState(() {
-      _nationalId = _nationalIdController.text;
-      _phoneNumber = _phoneNumberController.text;
-    });
-    User().nationalId = _nationalId;
-    User().phoneNumber = _phoneNumber;
+class _SignUpFormState extends State<_SignUpForm> {
+  final TextEditingController _nationalIdController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  SignUpBloc _signUpBloc;
+
+  bool get isPopulated =>
+      _nationalIdController.text.isNotEmpty &&
+      _passwordController.text.isNotEmpty &&
+      _confirmPasswordController.text.isNotEmpty;
+
+  bool isSignUpButtonEnabled(SignUpState state) {
+    return state.isFormValid && isPopulated && !state.isSubmitting;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _signUpBloc = BlocProvider.of<SignUpBloc>(context);
+    _nationalIdController.addListener(_onNationalIdChanged);
+    _passwordController.addListener(_onPasswordChanged);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: LinearPercentIndicator(
-                    width: MediaQuery.of(context).size.width - 70,
-                    animation: true,
-                    lineHeight: 40.0,
-                    animationDuration: 1500,
-                    percent: 0.7,
-                    center:
-                        Text("70.0%", style: TextStyle(color: Colors.white)),
-                    linearStrokeCap: LinearStrokeCap.roundAll,
-                    progressColor: Colors.green,
+    return BlocListener<SignUpBloc, SignUpState>(
+      listener: (context, state) {
+        if (state.isSubmitting) {
+          // TODO: Show "Signing up..." Snack bar.
+        }
+        if (state.isFailure) {
+          // TODO: Show "Failed to Sign up..." Snack bar.
+        }
+        if (state.isSuccess) {
+          BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (c) => HomeScreen()),
+          );
+        }
+      },
+      child: BlocBuilder<SignUpBloc, SignUpState>(
+        builder: (context, state) {
+          return Scaffold(
+            body: Container(
+              padding: EdgeInsets.all(16),
+              child: Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: ProgressBar(100)),
+                      Padding(padding: EdgeInsets.only(bottom: 32)),
+                      OutlinedTextField(
+                        textKey: 'national_id',
+                        controller: _nationalIdController,
+                        validator: (_) {
+                          return !state.isNationalIdValid ? 'Invalid ID' : null;
+                        },
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 32)),
+                      OutlinedTextField(
+                        textKey: 'password',
+                        controller: _passwordController,
+                        validator: (_) {
+                          return !state.isPasswordValid
+                              ? 'Invalid Password'
+                              : null;
+                        },
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 32)),
+                      OutlinedTextField(
+                        textKey: 'password_confirm',
+                        controller: _confirmPasswordController,
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 32)),
+                      RoundedButton(
+                        textKey: 'sign_up',
+                        onPressed: isSignUpButtonEnabled(state)
+                            ? _onFormSubmitted
+                            : null,
+                      ),
+                    ],
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                OutlinedTextField(
-                  textKey: 'national_id',
-                  controller: _nationalIdController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                OutlinedTextField(
-                  textKey: 'mobile_number',
-                  controller: _phoneNumberController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                RoundedButton(
-                  textKey: 'continue',
-                  onPressed: addToModel,
-                  navigateTo: SignUpScreen3(),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _nationalIdController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  void _onNationalIdChanged() {
+    _signUpBloc.dispatch(
+      NationalIdChanged(nationalId: _nationalIdController.text),
+    );
+  }
+
+  void _onPasswordChanged() {
+    _signUpBloc.dispatch(
+      PasswordChanged(password: _passwordController.text),
+    );
+  }
+
+  void _onFormSubmitted() {
+    _signUpBloc.dispatch(
+      Submitted(
+        nationalId: _nationalIdController.text,
+        password: _passwordController.text,
+        name: User().name,
+        email: User().email,
+        phoneNumber: User().phoneNumber,
       ),
     );
   }
