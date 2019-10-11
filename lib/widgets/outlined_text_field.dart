@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../util/app_localizations.dart';
 
@@ -6,24 +7,30 @@ class OutlinedTextField extends StatelessWidget {
   final String textKey;
   final TextEditingController controller;
   final bool obscureText;
+  final TextInputType keyboardType;
+  final String prefixText;
   final FormFieldValidator<String> validator;
 
   OutlinedTextField(
       {this.textKey,
       this.controller,
       this.validator,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.keyboardType = TextInputType.text,
+      this.prefixText});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obscureText,
+      keyboardType: keyboardType,
       autovalidate: true,
       autocorrect: false,
       controller: controller,
       validator: validator,
       decoration: InputDecoration(
-          border: InputBorder.none,
+          prefixText: prefixText,
+          border: OutlineInputBorder(borderSide: BorderSide()),
           labelText: AppLocalizations.of(context).translate(textKey),
           labelStyle: TextStyle(
             color: Colors.blueGrey,
