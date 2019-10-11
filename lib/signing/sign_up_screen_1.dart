@@ -80,6 +80,8 @@ class _SignUpFormState extends State<_SignUpForm> {
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     OutlinedTextField(
                       textKey: 'mobile_number',
+                      prefixText: '+2',
+                      keyboardType: TextInputType.number,
                       controller: _phoneNumberController,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),

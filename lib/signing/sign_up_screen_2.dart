@@ -86,6 +86,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                       OutlinedTextField(
                         textKey: 'national_id',
                         controller: _nationalIdController,
+                        keyboardType: TextInputType.number,
                         validator: (_) {
                           return !state.isNationalIdValid ? 'Invalid ID' : null;
                         },
@@ -93,6 +94,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       OutlinedTextField(
                         textKey: 'password',
+                        obscureText: true,
                         controller: _passwordController,
                         validator: (_) {
                           return !state.isPasswordValid
@@ -103,6 +105,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       OutlinedTextField(
                         textKey: 'password_confirm',
+                        obscureText: true,
                         controller: _confirmPasswordController,
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 32)),

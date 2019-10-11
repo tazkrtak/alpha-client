@@ -86,6 +86,7 @@ class _SignInFormState extends State<_SignInForm> {
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       OutlinedTextField(
                         textKey: 'national_id',
+                        keyboardType: TextInputType.number,
                         controller: _nationalIdController,
                         validator: (_) =>
                             !state.isNationalIdValid ? 'Invalid Id' : null,
