@@ -11,6 +11,10 @@ class _ValidatorsTestMode {
     r'^.+@.+$',
   );
 
+  static final RegExp phoneNumberRegExp = RegExp(
+    r'^\d{3,}$',
+  );
+
   static final RegExp passwordRegExp = RegExp(
     r'^.{3,}$',
   );
@@ -23,6 +27,10 @@ class Validators {
 
   static final RegExp _emailRegExp = RegExp(
     r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+  );
+
+  static final RegExp _phoneNumberRegExp = RegExp(
+    r'^\d{11}$',
   );
 
   static final RegExp _passwordRegExp = RegExp(
@@ -45,5 +53,11 @@ class Validators {
     return mode == MODE.TEST
         ? _ValidatorsTestMode.passwordRegExp.hasMatch(password)
         : _passwordRegExp.hasMatch(password);
+  }
+
+  static isValidPhoneNumber(String phoneNumber) {
+    return mode == MODE.TEST
+        ? _ValidatorsTestMode.phoneNumberRegExp.hasMatch(phoneNumber)
+        : _phoneNumberRegExp.hasMatch(phoneNumber);
   }
 }

@@ -41,7 +41,10 @@ class _SignUpFormState extends State<_SignUpForm> {
       _phoneNumberController.text.isNotEmpty;
 
   bool isContinueButtonEnabled(SignUpState state) {
-    return state.isEmailValid && isPopulated;
+    return state.isEmailValid &&
+        state.isPhoneNumberValid &&
+        state.isNameValid &&
+        isPopulated;
   }
 
   @override
@@ -49,6 +52,8 @@ class _SignUpFormState extends State<_SignUpForm> {
     super.initState();
     _signUpBloc = BlocProvider.of<SignUpBloc>(context);
     _emailController.addListener(_onEmailChanged);
+    _phoneNumberController.addListener(_onPhoneNumberChanged);
+    _nameController.addListener(_onNameChanged);
   }
 
   @override
@@ -71,6 +76,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                     OutlinedTextField(
                       textKey: 'name',
                       controller: _nameController,
+                      validator: (_) {
+                        return !state.isNameValid ? 'Required Field' : null;
+                      },
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     OutlinedTextField(
@@ -86,6 +94,11 @@ class _SignUpFormState extends State<_SignUpForm> {
                       prefixText: '+2',
                       keyboardType: TextInputType.number,
                       controller: _phoneNumberController,
+                      validator: (_) {
+                        return !state.isPhoneNumberValid
+                            ? 'Invalid Phone Number'
+                            : null;
+                      },
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     RoundedButton(
@@ -112,9 +125,21 @@ class _SignUpFormState extends State<_SignUpForm> {
     super.dispose();
   }
 
+  void _onNameChanged() {
+    _signUpBloc.dispatch(
+      NameChanged(name: _nameController.text),
+    );
+  }
+
   void _onEmailChanged() {
     _signUpBloc.dispatch(
       EmailChanged(email: _emailController.text),
+    );
+  }
+
+  void _onPhoneNumberChanged() {
+    _signUpBloc.dispatch(
+      PhoneNumberChanged(phoneNumber: _phoneNumberController.text),
     );
   }
 

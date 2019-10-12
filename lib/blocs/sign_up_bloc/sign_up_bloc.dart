@@ -19,14 +19,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   ) {
     final observableStream = events as Observable<SignUpEvent>;
     final nonDebounceStream = observableStream.where((event) {
-      return (event is! EmailChanged &&
+      return (event is! NameChanged &&
+          event is! EmailChanged &&
           event is! NationalIdChanged &&
-          event is! PasswordChanged);
+          event is! PhoneNumberChanged &&
+          event is! PasswordChanged &&
+          event is! ConfirmPasswordChanged);
     });
     final debounceStream = observableStream.where((event) {
-      return (event is EmailChanged ||
+      return (event is NameChanged ||
+          event is EmailChanged ||
           event is NationalIdChanged ||
-          event is PasswordChanged);
+          event is PhoneNumberChanged ||
+          event is PasswordChanged ||
+          event is ConfirmPasswordChanged);
     }).debounceTime(Duration(milliseconds: 300));
     return super
         .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
@@ -36,15 +42,28 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Stream<SignUpState> mapEventToState(
     SignUpEvent event,
   ) async* {
-    if (event is EmailChanged) {
+    if (event is NameChanged) {
+      yield* _mapNameChangedToState(event.name);
+    } else if (event is EmailChanged) {
       yield* _mapEmailChangedToState(event.email);
     } else if (event is NationalIdChanged) {
       yield* _mapNationalIdChangedToState(event.nationalId);
+    } else if (event is PhoneNumberChanged) {
+      yield* _mapNationalPhoneNumberChangedToState(event.phoneNumber);
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
+    } else if (event is ConfirmPasswordChanged) {
+      yield* _mapConfirmPasswordChangedToState(
+          event.password, event.confirmPassword);
     } else if (event is Submitted) {
       yield* _mapFormSubmittedToState(event.user);
     }
+  }
+
+  Stream<SignUpState> _mapNameChangedToState(String name) async* {
+    yield currentState.update(
+      isNameValid: name.isNotEmpty,
+    );
   }
 
   Stream<SignUpState> _mapEmailChangedToState(String email) async* {
@@ -59,9 +78,23 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     );
   }
 
+  Stream<SignUpState> _mapNationalPhoneNumberChangedToState(
+      String phoneNumber) async* {
+    yield currentState.update(
+      isPhoneNumberValid: Validators.isValidPhoneNumber(phoneNumber),
+    );
+  }
+
   Stream<SignUpState> _mapPasswordChangedToState(String password) async* {
     yield currentState.update(
       isPasswordValid: Validators.isValidPassword(password),
+    );
+  }
+
+  Stream<SignUpState> _mapConfirmPasswordChangedToState(
+      String password, String confirmPassword) async* {
+    yield currentState.update(
+      isConfirmPasswordValid: password == confirmPassword,
     );
   }
 
