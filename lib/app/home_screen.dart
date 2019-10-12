@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/counter_bloc/bloc.dart';
+import '../models/user.dart';
 import 'account_tab.dart';
 import 'ticket_tab.dart';
 
 class HomeScreen extends StatefulWidget {
+  final User _user;
+
+  HomeScreen(this._user);
+
   @override
   _Main createState() => _Main();
 }
@@ -51,8 +56,8 @@ class _Main extends State<HomeScreen> {
           ],
           child: TabBarView(
             children: <Widget>[
-              TicketTab(),
-              AccountTab(),
+              TicketTab(widget._user),
+              AccountTab(widget._user),
             ],
           ),
         ),

@@ -5,10 +5,15 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:quiver/async.dart';
 
 import '../blocs/counter_bloc/bloc.dart';
+import '../models/user.dart';
 import '../util/totp.dart';
 import '../widgets/counter.dart';
 
 class TicketTab extends StatefulWidget {
+  final User _user;
+
+  TicketTab(this._user);
+
   @override
   _TicketTabState createState() => _TicketTabState();
 }
@@ -50,7 +55,6 @@ class _TicketTabState extends State<TicketTab> {
 
   @override
   Widget build(BuildContext context) {
-    print(context);
     final QuantityBloc quantityBloc = BlocProvider.of<QuantityBloc>(context);
     final FeesBloc priceBloc = BlocProvider.of<FeesBloc>(context);
 

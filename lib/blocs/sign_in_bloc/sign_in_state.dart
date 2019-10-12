@@ -19,18 +19,12 @@ class SignInState {
   });
 
   factory SignInState.empty() {
-    return SignInState(
-      isNationalIdValid: true,
-      isPasswordValid: true
-    );
+    return SignInState(isNationalIdValid: true, isPasswordValid: true);
   }
 
   factory SignInState.loading() {
     return SignInState(
-      isNationalIdValid: true,
-      isPasswordValid: true,
-      isSubmitting: true
-    );
+        isNationalIdValid: true, isPasswordValid: true, isSubmitting: true);
   }
 
   factory SignInState.failure() {

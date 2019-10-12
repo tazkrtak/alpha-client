@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../repositories//user_repository.dart';
+import '../../models/user.dart';
+import '../../repos/user_repository.dart';
 import '../../util/validators.dart';
 import 'bloc.dart';
 
@@ -42,13 +43,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is Submitted) {
-      yield* _mapFormSubmittedToState(
-        nationalId: event.nationalId,
-        password: event.password,
-        name: event.name,
-        email: event.email,
-        phoneNumber: event.phoneNumber,
-      );
+      yield* _mapFormSubmittedToState(event.user);
     }
   }
 
@@ -70,22 +65,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     );
   }
 
-  Stream<SignUpState> _mapFormSubmittedToState({
-    String nationalId,
-    String password,
-    String name,
-    String email,
-    String phoneNumber,
-  }) async* {
+  Stream<SignUpState> _mapFormSubmittedToState(User user) async* {
     yield SignUpState.loading();
     try {
-      await UserRepository.signUp(
-        nationalId: nationalId,
-        password: password,
-        name: name,
-        email: email,
-        phoneNumber: phoneNumber,
-      );
+      await UserRepository.signUp(user);
       yield SignUpState.success();
     } catch (_) {
       yield SignUpState.failure();

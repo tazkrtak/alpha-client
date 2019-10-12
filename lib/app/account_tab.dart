@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:tazkrtak/models/user.dart';
+
+import '../models/user.dart';
 
 class AccountTab extends StatefulWidget {
+  final User _user;
+
+  AccountTab(this._user);
+
   @override
-  _MyAccountPage createState() => _MyAccountPage();
+  _AccountTabState createState() => _AccountTabState();
 }
 
-class _MyAccountPage extends State<AccountTab> {
+class _AccountTabState extends State<AccountTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text(User().name)),
+      body: Center(child: Text(widget._user.name)),
     );
   }
 }
