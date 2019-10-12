@@ -1,17 +1,57 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   String name;
   String email;
-  String nationalId;
   String phoneNumber;
+  String nationalId;
   String password;
   double balance;
-  String sharedKey;
+  String secret;
 
-  static final User _user = User._internal();
+  User(
+      {this.name,
+      this.email,
+      this.phoneNumber,
+      this.nationalId,
+      this.password,
+      this.balance,
+      this.secret});
 
-  factory User() {
-    return _user;
+  factory User.fromDocument(DocumentSnapshot doc) {
+    return User(
+      name: doc['name'],
+      email: doc['email'],
+      phoneNumber: doc['phoneNumber'],
+      nationalId: doc['nationalId'],
+      password: doc['password'],
+      balance: doc['balance'],
+      secret: doc['secret'],
+    );
   }
 
-  User._internal();
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'nationalId': nationalId,
+      'password': password,
+      'balance': balance,
+      'secret': secret,
+    };
+  }
+
+  @override
+  String toString() {
+    return '''User{
+      name: $name,
+      email: $email,
+      phoneNumber: $phoneNumber,
+      nationalId: $nationalId,
+      password: $password,
+      balance: $balance,
+      secret: $secret
+    }''';
+  }
 }

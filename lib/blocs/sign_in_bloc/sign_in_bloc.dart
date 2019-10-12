@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../repositories//user_repository.dart';
+import '../../repos/user_repository.dart';
 import '../../util/validators.dart';
 import 'bloc.dart';
 

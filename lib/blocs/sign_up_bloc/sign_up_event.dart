@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import '../../models/user.dart';
+
 @immutable
 abstract class SignUpEvent extends Equatable {
   SignUpEvent([List props = const []]) : super(props);
@@ -34,28 +36,12 @@ class PasswordChanged extends SignUpEvent {
 }
 
 class Submitted extends SignUpEvent {
-  final String nationalId;
-  final String password;
-  final String name;
-  final String email;
-  final String phoneNumber;
+  final User user;
 
-  Submitted({
-    @required this.nationalId,
-    @required this.password,
-    @required this.name,
-    @required this.email,
-    @required this.phoneNumber,
-  }) : super([email, password]);
+  Submitted(this.user) : super([user]);
 
   @override
   String toString() {
-    return '''Submitted {
-      nationalId: $nationalId,
-      password: $password,
-      name: $name,
-      email: $email,
-      phoneNumber: $phoneNumber,
-    }''';
+    return 'Submitted { user: $user }';
   }
 }

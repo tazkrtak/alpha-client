@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/sign_up_bloc/bloc.dart';
-import '../models/user.dart';
 import '../widgets/outlined_text_field.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/rounded_button.dart';
 import 'sign_up_screen_2.dart';
 
 class SignUpScreen1 extends StatelessWidget {
+  static String name;
+  static String email;
+  static String phoneNumber;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,9 +119,9 @@ class _SignUpFormState extends State<_SignUpForm> {
   }
 
   void _onFormFinished() {
-    User().name = _nameController.text;
-    User().email = _emailController.text;
-    User().phoneNumber = _phoneNumberController.text;
+    SignUpScreen1.name = _nameController.text;
+    SignUpScreen1.email = _emailController.text;
+    SignUpScreen1.phoneNumber = _phoneNumberController.text;
     Navigator.push(
       context,
       MaterialPageRoute(builder: (c) => SignUpScreen2()),

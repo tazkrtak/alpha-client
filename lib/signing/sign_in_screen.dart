@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../app/home_screen.dart';
 import '../blocs/authentication_bloc/bloc.dart';
 import '../blocs/sign_in_bloc/bloc.dart';
 import '../blocs/sign_up_bloc/sign_up_bloc.dart';
@@ -60,10 +59,6 @@ class _SignInFormState extends State<_SignInForm> {
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (c) => HomeScreen()),
-          );
         }
       },
       child: BlocBuilder<SignInBloc, SignInState>(

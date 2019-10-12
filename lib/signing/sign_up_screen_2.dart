@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../app/home_screen.dart';
 import '../blocs/authentication_bloc/bloc.dart';
 import '../blocs/sign_up_bloc/bloc.dart';
 import '../models/user.dart';
+import '../signing/sign_up_screen_1.dart';
+import '../util/secret_generator.dart';
 import '../widgets/outlined_text_field.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/rounded_button.dart';
@@ -63,10 +64,8 @@ class _SignUpFormState extends State<_SignUpForm> {
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (c) => HomeScreen()),
-          );
+          Navigator.of(context).pop(); // SignUpScreen2
+          Navigator.of(context).pop(); // SignUpScreen1
         }
       },
       child: BlocBuilder<SignUpBloc, SignUpState>(
@@ -149,12 +148,18 @@ class _SignUpFormState extends State<_SignUpForm> {
   void _onFormSubmitted() {
     _signUpBloc.dispatch(
       Submitted(
-        nationalId: _nationalIdController.text,
-        password: _passwordController.text,
-        name: User().name,
-        email: User().email,
-        phoneNumber: User().phoneNumber,
+        User(
+            name: SignUpScreen1.name,
+            email: SignUpScreen1.email,
+            phoneNumber: SignUpScreen1.phoneNumber,
+            nationalId: _nationalIdController.text,
+            password: _passwordController.text,
+            balance: 0,
+            secret: SecretGenerator.generate()),
       ),
     );
+    SignUpScreen1.name = null;
+    SignUpScreen1.email = null;
+    SignUpScreen1.phoneNumber = null;
   }
 }
