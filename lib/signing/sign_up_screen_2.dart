@@ -50,6 +50,7 @@ class _SignUpFormState extends State<_SignUpForm> {
     _signUpBloc = BlocProvider.of<SignUpBloc>(context);
     _nationalIdController.addListener(_onNationalIdChanged);
     _passwordController.addListener(_onPasswordChanged);
+    _confirmPasswordController.addListener(_onConfirmPasswordChanged);
   }
 
   @override
@@ -57,10 +58,12 @@ class _SignUpFormState extends State<_SignUpForm> {
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-          // TODO: Show "Signing up..." Snack bar.
+           final snackBar = SnackBar(content: Text('Signing up...'));
+           Scaffold.of(context).showSnackBar(snackBar);
         }
         if (state.isFailure) {
-          // TODO: Show "Failed to Sign up..." Snack bar.
+          final snackBar = SnackBar(content: Text('Failed to sing up. Please try again later.'));
+          Scaffold.of(context).showSnackBar(snackBar);
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
@@ -103,10 +106,14 @@ class _SignUpFormState extends State<_SignUpForm> {
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       OutlinedTextField(
-                        textKey: 'password_confirm',
-                        obscureText: true,
-                        controller: _confirmPasswordController,
-                      ),
+                          textKey: 'password_confirm',
+                          obscureText: true,
+                          controller: _confirmPasswordController,
+                          validator: (_) {
+                            return !state.isConfirmPasswordValid
+                                ? 'Passwords don\'t match'
+                                : null;
+                          }),
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       RoundedButton(
                         textKey: 'sign_up',
@@ -142,6 +149,14 @@ class _SignUpFormState extends State<_SignUpForm> {
   void _onPasswordChanged() {
     _signUpBloc.dispatch(
       PasswordChanged(password: _passwordController.text),
+    );
+  }
+
+  void _onConfirmPasswordChanged() {
+    _signUpBloc.dispatch(
+      ConfirmPasswordChanged(
+          password: _passwordController.text,
+          confirmPassword: _confirmPasswordController.text),
     );
   }
 

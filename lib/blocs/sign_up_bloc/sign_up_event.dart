@@ -8,6 +8,16 @@ abstract class SignUpEvent extends Equatable {
   SignUpEvent([List props = const []]) : super(props);
 }
 
+class NameChanged extends SignUpEvent {
+  final String name;
+
+  NameChanged({@required this.name}) : super([name]);
+
+  @override
+  String toString() => 'NameChanged { email :$name }';
+}
+
+
 class EmailChanged extends SignUpEvent {
   final String email;
 
@@ -26,6 +36,16 @@ class NationalIdChanged extends SignUpEvent {
   String toString() => 'NationalIdChanged { nationalId :$nationalId }';
 }
 
+class PhoneNumberChanged extends SignUpEvent {
+  final String phoneNumber;
+
+  PhoneNumberChanged({@required this.phoneNumber}) : super([phoneNumber]);
+
+  @override
+  String toString() => 'PhoneNumberChanged { phoneNumber: $phoneNumber }';
+}
+
+
 class PasswordChanged extends SignUpEvent {
   final String password;
 
@@ -33,6 +53,16 @@ class PasswordChanged extends SignUpEvent {
 
   @override
   String toString() => 'PasswordChanged { password: $password }';
+}
+
+class ConfirmPasswordChanged extends SignUpEvent {
+  final String confirmPassword;
+  final String password;
+
+  ConfirmPasswordChanged({@required this.password, @required this.confirmPassword}) : super([password,confirmPassword]);
+
+  @override
+  String toString() => 'PasswordChanged { password: $password and confirmPassword: $confirmPassword }';
 }
 
 class Submitted extends SignUpEvent {

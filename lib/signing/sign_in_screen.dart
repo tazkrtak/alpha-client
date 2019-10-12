@@ -52,10 +52,12 @@ class _SignInFormState extends State<_SignInForm> {
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
         if (state.isFailure) {
-          // TODO: Show "Failed to Sign in..." Snack bar.
+          final snackBar = SnackBar(content: Text('Failed to sing in. Please try again later.'));
+          Scaffold.of(context).showSnackBar(snackBar);
         }
         if (state.isSubmitting) {
-          // TODO: Show "Signing in..." Snack bar.
+          final snackBar = SnackBar(content: Text('Signing in...'));
+          Scaffold.of(context).showSnackBar(snackBar);
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
