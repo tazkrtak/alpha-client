@@ -2,6 +2,7 @@
   "app_name": "Tazkrtak",
   "sign_in": "Sign in",
   "sign_up": "Sign Up",
+  "sign_out": "Sign Out",
   "national_id": "National ID",
   "password": "Password",
   "password_confirm": "Confirm Password",

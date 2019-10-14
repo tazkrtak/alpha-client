@@ -19,7 +19,8 @@ class UserRepository {
   }
 
   static Future<bool> isSignedIn() async {
-    return await _auth.currentUser ?? false;
+    final currentUser = await _auth.currentUser;
+    return currentUser != null;
   }
 
   static Future<User> getUser() async {
