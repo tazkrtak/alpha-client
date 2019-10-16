@@ -21,6 +21,7 @@ dependencies:
   percent_indicator: "^2.1.1"
   qr_flutter: ^3.0.1
   shared_preferences: 0.5.3+4
+  flutter_circular_chart: ^0.1.0
 
 dev_dependencies:
   flutter_test:
