@@ -1,0 +1,1 @@
+enum TimerEvent { Start, Tick, Reset }
