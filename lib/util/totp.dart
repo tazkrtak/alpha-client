@@ -4,8 +4,16 @@ import 'package:base32/base32.dart';
 import 'package:crypto/crypto.dart';
 
 class TOTP {
-  static int generateTOTPCode(String secret, int time, {int length: 6}) {
-    time = (((time ~/ 1000).round()) ~/ 30).floor();
+  static const VALID_DURATION = 30;
+
+  static int get _timeNowMS => DateTime.now().toUtc().millisecondsSinceEpoch;
+
+  static int get _timeNow => _timeNowMS ~/ 1000;
+
+  static int get expiresIn => VALID_DURATION - _timeNow % VALID_DURATION - 1;
+
+  static int generateTOTPCode(String secret, {int length: 6}) {
+    int time = _timeNow ~/ VALID_DURATION;
     return _generateCode(secret, time, length);
   }
 
@@ -26,17 +34,6 @@ class TOTP {
         (hash[offset + 3] & 0xff);
 
     return binary % pow(10, length);
-  }
-
-  static String randomSecret() {
-    var rand = Random();
-    var bytes = List();
-
-    for (int i = 0; i < 10; i++) {
-      bytes.add(rand.nextInt(256));
-    }
-
-    return base32.encode(bytes);
   }
 
   static List _int2bytes(int long) {

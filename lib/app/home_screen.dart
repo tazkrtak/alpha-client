@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/counter_bloc/bloc.dart';
+import '../blocs/qr_bloc/bloc.dart';
+import '../blocs/timer_bloc/bloc.dart';
 import '../models/user.dart';
+import '../util/ticker.dart';
+import '../util/totp.dart';
 import 'account_tab.dart';
 import 'ticket_tab.dart';
 
@@ -47,6 +51,16 @@ class _Main extends State<HomeScreen> {
         ),
         body: MultiBlocProvider(
           providers: [
+            BlocProvider<QrBloc>(
+              builder: (BuildContext context) => QrBloc(),
+            ),
+            BlocProvider<TimerBloc>(
+              builder: (BuildContext context) => TimerBloc(
+                Ticker(),
+                TOTP.expiresIn,
+                TOTP.VALID_DURATION,
+              )..dispatch(TimerEvent.Start),
+            ),
             BlocProvider<QuantityBloc>(
               builder: (BuildContext context) => QuantityBloc(),
             ),
