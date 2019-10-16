@@ -11,5 +11,10 @@
   "email": "Email",
   "quantity": "Quantity",
   "fees": "Fees",
-  "continue": "Continue"
+  "continue": "Continue",
+  "delete_account": "Delete The Account",
+  "switch_language": "Change Language",
+  "switch_theme":"Change Theme",
+  "help": "Help",
+  "send_feedback": "Send Feedback"
 }

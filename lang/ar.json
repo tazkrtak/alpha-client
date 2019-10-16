@@ -11,5 +11,10 @@
   "email": "البريد الإلكتروني",
   "quantity": "العدد",
   "fees": "الرسوم",
-  "continue": "إستمرار"
+  "continue": "إستمرار",
+  "delete_account": "حذف الحساب",
+  "switch_language": "تغير اللغه",
+  "switch_theme": "تغير الوجهة",
+  "help": "مساعدة",
+  "send_feedback":"ارسال تقييمك"
 }
