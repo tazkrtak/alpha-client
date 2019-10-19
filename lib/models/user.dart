@@ -25,7 +25,7 @@ class User {
       phoneNumber: doc['phoneNumber'],
       nationalId: doc['nationalId'],
       password: doc['password'],
-      balance: doc['balance'],
+      balance: doc['balance'].toDouble(),
       secret: doc['secret'],
     );
   }

@@ -5,7 +5,7 @@ class QrEvent extends Equatable {
   final String id;
   final String secret;
   final int quantity;
-  final int fees;
+  final double fees;
   String data;
 
   QrEvent({
