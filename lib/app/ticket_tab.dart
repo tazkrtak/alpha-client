@@ -44,7 +44,6 @@ class _TicketTabState extends State<TicketTab> {
         BlocListener<TimerBloc, int>(
           listener: (context, state) {
             if (state == 0) {
-              _timerBloc.dispatch(TimerEvent.Reset);
               _dispatchQrEvent();
             }
           },
