@@ -55,11 +55,9 @@ class _Main extends State<HomeScreen> {
               builder: (BuildContext context) => QrBloc(),
             ),
             BlocProvider<TimerBloc>(
-              builder: (BuildContext context) => TimerBloc(
-                Ticker(),
-                TOTP.expiresIn,
-                TOTP.VALID_DURATION,
-              )..dispatch(TimerEvent.Start),
+              builder: (BuildContext context) =>
+                  TimerBloc(Ticker(), TOTP.VALID_DURATION)
+                    ..dispatch(StartEvent(TOTP.expiresIn)),
             ),
             BlocProvider<QuantityBloc>(
               builder: (BuildContext context) => QuantityBloc(),
