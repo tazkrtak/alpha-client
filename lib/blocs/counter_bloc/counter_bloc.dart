@@ -4,36 +4,41 @@ import 'package:bloc/bloc.dart';
 
 import 'bloc.dart';
 
-abstract class CounterBloc extends Bloc<CounterEvent, int> {
-  int _minValue;
-  int _maxValue;
+abstract class CounterBloc<T extends num> extends Bloc<CounterEvent, T> {
+  T _minValue;
+  T _maxValue;
+  T _step;
 
-  CounterBloc(this._minValue, this._maxValue);
-
-  @override
-  int get initialState => _minValue;
+  CounterBloc(this._minValue, this._maxValue, this._step);
 
   @override
-  Stream<int> mapEventToState(CounterEvent event) async* {
+  T get initialState => _minValue;
+
+  @override
+  Stream<T> mapEventToState(CounterEvent event) async* {
     switch (event) {
       case CounterEvent.increment:
-        yield currentState < _maxValue ? currentState + 1 : _maxValue;
+        yield currentState < _maxValue ? currentState + _step : _maxValue;
         break;
       case CounterEvent.decrement:
-        yield currentState > _minValue ? currentState - 1 : _minValue;
+        yield currentState > _minValue ? currentState - _step : _minValue;
         break;
     }
   }
 }
 
-class QuantityBloc extends CounterBloc {
+class QuantityBloc extends CounterBloc<int> {
   static int minValue = 1;
   static int maxValue = 50;
-  QuantityBloc() : super(minValue, maxValue);
+  static int step = 1;
+
+  QuantityBloc() : super(minValue, maxValue, step);
 }
 
-class FeesBloc extends CounterBloc {
-  static int minValue = 3;
-  static int maxValue = 10;
-  FeesBloc() : super(minValue, maxValue);
+class FeesBloc extends CounterBloc<double> {
+  static double minValue = 3;
+  static double maxValue = 10;
+  static double step = 0.5;
+
+  FeesBloc() : super(minValue, maxValue, step);
 }
