@@ -12,10 +12,12 @@
   "quantity": "Quantity",
   "fees": "Fees",
   "continue": "Continue",
-  "delete_account": "Delete The Account",
+  "delete_account": "Delete Account",
   "switch_language": "Change Language",
-  "switch_theme":"Change Theme",
+  "switch_theme": "Change Theme",
   "help": "Help",
   "send_feedback": "Send Feedback",
-  "currency": "EGP"
+  "currency": "EGP",
+  "update": "Update",
+  "account": "Account"
 }
