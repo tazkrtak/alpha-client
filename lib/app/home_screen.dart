@@ -7,7 +7,7 @@ import '../blocs/timer_bloc/bloc.dart';
 import '../models/user.dart';
 import '../util/ticker.dart';
 import '../util/totp.dart';
-import 'account_tab.dart';
+import 'wallet_tab.dart';
 import 'ticket_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _Main extends State<HomeScreen> {
                 ),
                 Tab(
                   icon: Icon(
-                    Icons.account_circle,
+                    Icons.account_balance_wallet,
                     color: Colors.white,
                     size: 32,
                   ),
@@ -69,7 +69,7 @@ class _Main extends State<HomeScreen> {
           child: TabBarView(
             children: <Widget>[
               TicketTab(widget._user),
-              AccountTab(widget._user),
+              WalletTab(widget._user),
             ],
           ),
         ),
