@@ -4,10 +4,10 @@ abstract class TimerEvent extends Equatable {
   TimerEvent([List props = const []]) : super(props);
 }
 
-class StartEvent extends TimerEvent {
+class Start extends TimerEvent {
   final int duration;
 
-  StartEvent(this.duration) : super([duration]);
+  Start(this.duration) : super([duration]);
 
   @override
   String toString() {
@@ -15,7 +15,7 @@ class StartEvent extends TimerEvent {
   }
 }
 
-class TickEvent extends TimerEvent {
+class Tick extends TimerEvent {
   @override
   String toString() {
     return 'TickEvent';
