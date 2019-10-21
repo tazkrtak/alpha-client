@@ -10,6 +10,6 @@ class QrBloc extends Bloc<QrEvent, String> {
 
   @override
   Stream<String> mapEventToState(QrEvent event) async* {
-    yield event.data;
+    yield event.ticket.encryptedData;
   }
 }
