@@ -1,18 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 
-import '../models/transaction.dart' as models;
+import '../models/transaction.dart';
 
 class TransactionsRepository {
-  static final Firestore _db = Firestore.instance;
+  static final firestore.Firestore _db = firestore.Firestore.instance;
 
-  Stream<List<models.Transaction>> getTransactions(String userNationalId) {
+  Stream<List<Transaction>> getTransactions(String userNationalId) {
     return _db
         .collection('transactions')
         .where('userNationalId', isEqualTo: userNationalId)
         .snapshots()
         .map((snapshot) {
       return snapshot.documents
-          .map((doc) => models.Transaction.fromDocument(doc))
+          .map((doc) => Transaction.fromDocument(doc))
           .toList()
             ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
     });

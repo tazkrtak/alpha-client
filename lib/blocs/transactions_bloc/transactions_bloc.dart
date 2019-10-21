@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 
-import 'bloc.dart';
 import '../../models/user.dart';
 import '../../repos/transaction_repository.dart';
+import 'bloc.dart';
 
 class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final User _user;

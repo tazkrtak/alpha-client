@@ -9,14 +9,15 @@ class User {
   double balance;
   String secret;
 
-  User(
-      {this.name,
-      this.email,
-      this.phoneNumber,
-      this.nationalId,
-      this.password,
-      this.balance,
-      this.secret});
+  User({
+    this.name,
+    this.email,
+    this.phoneNumber,
+    this.nationalId,
+    this.password,
+    this.balance,
+    this.secret,
+  });
 
   factory User.fromDocument(DocumentSnapshot doc) {
     return User(

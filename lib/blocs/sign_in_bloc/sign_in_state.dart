@@ -24,7 +24,10 @@ class SignInState {
 
   factory SignInState.loading() {
     return SignInState(
-        isNationalIdValid: true, isPasswordValid: true, isSubmitting: true);
+      isNationalIdValid: true,
+      isPasswordValid: true,
+      isSubmitting: true,
+    );
   }
 
   factory SignInState.failure() {

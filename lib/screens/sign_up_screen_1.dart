@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/sign_up_bloc/bloc.dart';
+import '../util/app_localizations.dart';
 import '../widgets/outlined_text_field.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/rounded_button.dart';
@@ -69,7 +70,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16),
                       child: ProgressBar(50),
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
@@ -77,7 +78,9 @@ class _SignUpFormState extends State<_SignUpForm> {
                       textKey: 'name',
                       controller: _nameController,
                       validator: (_) {
-                        return !state.isNameValid ? 'Required Field' : null;
+                        return !state.isNameValid
+                            ? AppLocalizations.of(context).translate("required")
+                            : null;
                       },
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
@@ -85,7 +88,10 @@ class _SignUpFormState extends State<_SignUpForm> {
                       textKey: 'email',
                       controller: _emailController,
                       validator: (_) {
-                        return !state.isEmailValid ? 'Invalid Email' : null;
+                        return !state.isEmailValid
+                            ? AppLocalizations.of(context)
+                                .translate("invalid_email")
+                            : null;
                       },
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
@@ -96,7 +102,8 @@ class _SignUpFormState extends State<_SignUpForm> {
                       controller: _phoneNumberController,
                       validator: (_) {
                         return !state.isPhoneNumberValid
-                            ? 'Invalid Phone Number'
+                            ? AppLocalizations.of(context)
+                                .translate("invalid_phone")
                             : null;
                       },
                     ),

@@ -11,7 +11,7 @@ class ProgressBar extends StatelessWidget {
     return LinearPercentIndicator(
       width: MediaQuery.of(context).size.width - 70,
       animation: true,
-      lineHeight: 40.0,
+      lineHeight: 40,
       animationDuration: 1500,
       percent: progress / 100,
       center: Text("$progress%", style: TextStyle(color: Colors.white)),

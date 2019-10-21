@@ -113,7 +113,7 @@ class SignUpState {
     bool isFailure,
   }) {
     return SignUpState(
-      isNameValid: isNameValid?? this.isNameValid,
+      isNameValid: isNameValid ?? this.isNameValid,
       isEmailValid: isEmailValid ?? this.isEmailValid,
       isNationalIdValid: isNationalIdValid ?? this.isNationalIdValid,
       isPhoneNumberValid: isPhoneNumberValid ?? this.isPhoneNumberValid,

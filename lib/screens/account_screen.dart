@@ -79,7 +79,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 16)),
                 OutlinedTextField(
-                  textKey: 'password_confirm',
+                  textKey: 'confirm_password',
                   obscureText: true,
                   controller: _confirmController,
                 ),

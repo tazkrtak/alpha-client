@@ -11,13 +11,14 @@ class OutlinedTextField extends StatelessWidget {
   final String prefixText;
   final FormFieldValidator<String> validator;
 
-  OutlinedTextField(
-      {this.textKey,
-      this.controller,
-      this.validator,
-      this.obscureText = false,
-      this.keyboardType = TextInputType.text,
-      this.prefixText});
+  OutlinedTextField({
+    this.textKey,
+    this.controller,
+    this.validator,
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text,
+    this.prefixText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +38,14 @@ class OutlinedTextField extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
               color: Colors.green,
               width: 2.5,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
               color: Colors.blueGrey,
               width: 2.5,

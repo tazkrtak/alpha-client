@@ -13,7 +13,9 @@ class LoadTransactions extends TransactionsEvent {
 
 class UpdateTransactions extends TransactionsEvent {
   final List<Transaction> transactions;
+
   UpdateTransactions(this.transactions) : super([transactions]);
+
   @override
   String toString() => 'UpdateTransactions { transactions: $transactions }';
 }
