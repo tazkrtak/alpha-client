@@ -4,6 +4,7 @@ import '../models/transaction.dart' as models;
 
 class TransactionsRepository {
   static final Firestore _db = Firestore.instance;
+
   Stream<List<models.Transaction>> getTransactions(String userNationalId) {
     return _db
         .collection('transactions')
@@ -12,7 +13,8 @@ class TransactionsRepository {
         .map((snapshot) {
       return snapshot.documents
           .map((doc) => models.Transaction.fromDocument(doc))
-          .toList();
+          .toList()
+            ..sort((a, b) => b.timestamp.compareTo(a.timestamp));
     });
   }
 }
