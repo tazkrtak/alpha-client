@@ -8,23 +8,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
 class Auth {
-  static const _NATIONAL_ID = 'nationalId';
-  static const _PASSWORD = 'password';
+  static const _NATIONAL_ID = "nationalId";
+  static const _PASSWORD = "password";
 
+  static final Auth _instance = Auth._();
   static final Firestore _db = Firestore.instance;
   static final Future<SharedPreferences> _prefs =
       SharedPreferences.getInstance();
-  static final Auth _instance = Auth._();
+
   static FutureOr<User> _user;
 
   FutureOr<User> get currentUser async {
     if (_user == null) {
       var data = await _getPrefs();
-      if (data.containsKey(_NATIONAL_ID) && data.containsKey(_PASSWORD)) {
+      if (data[_NATIONAL_ID].isNotEmpty && data[_PASSWORD].isNotEmpty) {
         await _fetchData(data[_NATIONAL_ID], data[_PASSWORD]);
       }
     }
-
     return await _user;
   }
 
@@ -32,41 +32,14 @@ class Auth {
 
   Auth._();
 
-  Future<void> signIn(String nationalId, String password) async {
-    String encryptedPassword = _encrypt(password);
-    await _fetchData(nationalId, encryptedPassword);
-
-    await _setPrefs(nationalId, encryptedPassword);
-  }
-
-  Future<void> signUp(User user) async {
-    user.password = _encrypt(user.password);
-     _user = user;
-    await _getDocRef(user.nationalId).setData(user.toMap());
-    await _setPrefs(user.nationalId, user.password);
-  }
-
-  Future<void> signOut() async {
-    _user = null;
-    await _setPrefs(null, null);
-  }
-
-  Future<Map<String, String>> _getPrefs() async {
-    var prefs = await _prefs;
-    return {
-      _NATIONAL_ID: prefs.getString(_NATIONAL_ID),
-      _PASSWORD: prefs.getString(_PASSWORD)
-    };
-  }
-
-  Future<void> _setPrefs(String nationalId, String password) async {
-    var prefs = await _prefs;
-    prefs.setString(_NATIONAL_ID, nationalId);
-    prefs.setString(_PASSWORD, password);
-  }
-
   DocumentReference _getDocRef(String nationalId) {
     return _db.collection('users').document(nationalId);
+  }
+
+  Future<void> signIn(String nationalId, String password) async {
+    String encryptedPassword = _hash(password);
+    await _fetchData(nationalId, encryptedPassword);
+    await _setPrefs(nationalId, encryptedPassword);
   }
 
   Future<void> _fetchData(String nationalId, String encryptedPassword) async {
@@ -77,8 +50,34 @@ class Auth {
         : throw AuthException("Wrong credentials");
   }
 
-  String _encrypt(String password) {
+  Future<void> signUp(User user) async {
+    user.password = _hash(user.password);
+    await _getDocRef(user.nationalId).setData(user.toMap());
+    await _setPrefs(user.nationalId, user.password);
+    _user = user;
+  }
+
+  Future<void> signOut() async {
+    await _setPrefs(null, null);
+    _user = null;
+  }
+
+  String _hash(String password) {
     return sha512.convert(utf8.encode(password)).toString();
+  }
+
+  Future<Map<String, String>> _getPrefs() async {
+    var prefs = await _prefs;
+    return {
+      _NATIONAL_ID: prefs.getString(_NATIONAL_ID) ?? "",
+      _PASSWORD: prefs.getString(_PASSWORD) ?? ""
+    };
+  }
+
+  Future<void> _setPrefs(String nationalId, String password) async {
+    var prefs = await _prefs;
+    prefs.setString(_NATIONAL_ID, nationalId);
+    prefs.setString(_PASSWORD, password);
   }
 }
 

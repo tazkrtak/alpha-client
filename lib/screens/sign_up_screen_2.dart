@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tazkrtak/util/totp.dart';
 
 import '../blocs/authentication_bloc/bloc.dart';
 import '../blocs/sign_up_bloc/bloc.dart';
 import '../models/user.dart';
-import '../signing/sign_up_screen_1.dart';
+import '../screens/sign_up_screen_1.dart';
+import '../util/app_localizations.dart';
+import '../util/totp.dart';
 import '../widgets/outlined_text_field.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/rounded_button.dart';
@@ -30,15 +31,14 @@ class _SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<_SignUpForm> {
   final TextEditingController _nationalIdController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmController = TextEditingController();
 
   SignUpBloc _signUpBloc;
 
   bool get isPopulated =>
       _nationalIdController.text.isNotEmpty &&
       _passwordController.text.isNotEmpty &&
-      _confirmPasswordController.text.isNotEmpty;
+      _confirmController.text.isNotEmpty;
 
   bool isSignUpButtonEnabled(SignUpState state) {
     return state.isFormValid && isPopulated && !state.isSubmitting;
@@ -50,7 +50,7 @@ class _SignUpFormState extends State<_SignUpForm> {
     _signUpBloc = BlocProvider.of<SignUpBloc>(context);
     _nationalIdController.addListener(_onNationalIdChanged);
     _passwordController.addListener(_onPasswordChanged);
-    _confirmPasswordController.addListener(_onConfirmPasswordChanged);
+    _confirmController.addListener(_onConfirmPasswordChanged);
   }
 
   @override
@@ -58,12 +58,22 @@ class _SignUpFormState extends State<_SignUpForm> {
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-          final snackBar = SnackBar(content: Text('Signing up...'));
-          Scaffold.of(context).showSnackBar(snackBar);
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context).translate("sign_up_submitting"),
+              ),
+            ),
+          );
         }
         if (state.isFailure) {
-          final snackBar = SnackBar(content: Text('Failed to sing up. Please try again later.'));
-          Scaffold.of(context).showSnackBar(snackBar);
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context).translate("sign_up_failure"),
+              ),
+            ),
+          );
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
@@ -82,7 +92,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Padding(
-                          padding: EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(16),
                           child: ProgressBar(100)),
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       OutlinedTextField(
@@ -90,7 +100,10 @@ class _SignUpFormState extends State<_SignUpForm> {
                         controller: _nationalIdController,
                         keyboardType: TextInputType.number,
                         validator: (_) {
-                          return !state.isNationalIdValid ? 'Invalid ID' : null;
+                          return !state.isNationalIdValid
+                              ? AppLocalizations.of(context)
+                                  .translate("invalid_id")
+                              : null;
                         },
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 32)),
@@ -100,20 +113,23 @@ class _SignUpFormState extends State<_SignUpForm> {
                         controller: _passwordController,
                         validator: (_) {
                           return !state.isPasswordValid
-                              ? 'Invalid Password'
+                              ? AppLocalizations.of(context)
+                                  .translate("invalid_password")
                               : null;
                         },
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       OutlinedTextField(
-                          textKey: 'password_confirm',
-                          obscureText: true,
-                          controller: _confirmPasswordController,
-                          validator: (_) {
-                            return !state.isConfirmPasswordValid
-                                ? 'Passwords don\'t match'
-                                : null;
-                          }),
+                        textKey: 'confirm_password',
+                        obscureText: true,
+                        controller: _confirmController,
+                        validator: (_) {
+                          return !state.isConfirmPasswordValid
+                              ? AppLocalizations.of(context)
+                                  .translate("not_matching_passwords")
+                              : null;
+                        },
+                      ),
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       RoundedButton(
                         textKey: 'sign_up',
@@ -136,7 +152,7 @@ class _SignUpFormState extends State<_SignUpForm> {
   void dispose() {
     _nationalIdController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _confirmController.dispose();
     super.dispose();
   }
 
@@ -156,7 +172,7 @@ class _SignUpFormState extends State<_SignUpForm> {
     _signUpBloc.dispatch(
       ConfirmPasswordChanged(
           password: _passwordController.text,
-          confirmPassword: _confirmPasswordController.text),
+          confirmPassword: _confirmController.text),
     );
   }
 

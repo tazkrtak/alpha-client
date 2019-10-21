@@ -17,7 +17,6 @@ class NameChanged extends SignUpEvent {
   String toString() => 'NameChanged { email :$name }';
 }
 
-
 class EmailChanged extends SignUpEvent {
   final String email;
 
@@ -45,7 +44,6 @@ class PhoneNumberChanged extends SignUpEvent {
   String toString() => 'PhoneNumberChanged { phoneNumber: $phoneNumber }';
 }
 
-
 class PasswordChanged extends SignUpEvent {
   final String password;
 
@@ -56,13 +54,18 @@ class PasswordChanged extends SignUpEvent {
 }
 
 class ConfirmPasswordChanged extends SignUpEvent {
-  final String confirmPassword;
   final String password;
+  final String confirmPassword;
 
-  ConfirmPasswordChanged({@required this.password, @required this.confirmPassword}) : super([password,confirmPassword]);
+  ConfirmPasswordChanged({
+    @required this.password,
+    @required this.confirmPassword,
+  }) : super([password, confirmPassword]);
 
   @override
-  String toString() => 'PasswordChanged { password: $password and confirmPassword: $confirmPassword }';
+  String toString() {
+    return 'ConfirmPasswordChanged { confirmPassword: $confirmPassword }';
+  }
 }
 
 class Submitted extends SignUpEvent {

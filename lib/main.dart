@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'app/home_screen.dart';
 import 'blocs/authentication_bloc/bloc.dart';
 import 'blocs/sign_in_bloc/bloc.dart';
-import 'signing/sign_in_screen.dart';
-import 'signing/splash_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/sign_in_screen.dart';
+import 'screens/splash_screen.dart';
 import 'util/app_bloc_delegate.dart';
 import 'util/app_localizations.dart';
 

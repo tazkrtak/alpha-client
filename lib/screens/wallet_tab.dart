@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../models/user.dart';
-import '../widgets/animated_chart.dart';
-import '../widgets/list_title_modal_bottom.dart';
-import '../widgets/transaction_card.dart';
 import '../blocs/transactions_bloc/bloc.dart';
+import '../models/user.dart';
+import '../widgets/balance_chart.dart';
+import '../widgets/modal_sheet.dart';
+import '../widgets/transaction_card.dart';
 import 'account_screen.dart';
 
 class WalletTab extends StatefulWidget {
@@ -18,7 +18,7 @@ class WalletTab extends StatefulWidget {
 }
 
 class _WalletTabState extends State<WalletTab> {
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +31,22 @@ class _WalletTabState extends State<WalletTab> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 SizedBox(height: 8),
-                AnimatedChart(balance: 50),
+                BalanceChart(current: 40, withdrawn: 10),
                 BlocBuilder<TransactionsBloc, TransactionsState>(
                   builder: (context, state) {
-                    if (state is TransactionLoading) {
-                      return CircularProgressIndicator();
-                    } else if (state is TransactionsLoaded) {
+                    if (state is TransactionsLoaded) {
                       var transactions = state.transactions;
                       return ListView.builder(
-                        controller: scrollController,
+                        controller: _scrollController,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: transactions.length,
-                        itemBuilder: (BuildContext ctxt, int index) {
+                        itemBuilder: (BuildContext context, int index) {
                           return TransactionCard(transactions[index]);
                         },
                       );
+                    } else if (state is TransactionLoading) {
+                      return CircularProgressIndicator();
                     } else {
                       return Container();
                     }
@@ -100,7 +100,7 @@ class _WalletTabState extends State<WalletTab> {
 
   @override
   void dispose() {
-    scrollController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -114,38 +114,7 @@ class _WalletTabState extends State<WalletTab> {
   void _onModalButtonPressed() {
     showModalBottomSheet(
       context: context,
-      builder: (context) {
-        return SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              ListTitle(
-                  textKey: 'switch_language',
-                  icon: Icons.language,
-                  onTap: () {
-                    Navigator.pop(context);
-                  }),
-              ListTitle(
-                  textKey: 'switch_theme',
-                  icon: Icons.invert_colors,
-                  onTap: () {
-                    Navigator.pop(context);
-                  }),
-              ListTitle(
-                  textKey: 'help',
-                  icon: Icons.help_outline,
-                  onTap: () {
-                    Navigator.pop(context);
-                  }),
-              ListTitle(
-                  textKey: 'send_feedback',
-                  icon: Icons.feedback,
-                  onTap: () {
-                    Navigator.pop(context);
-                  }),
-            ],
-          ),
-        );
-      },
+      builder: (context) => ModalSheet(),
     );
   }
 }

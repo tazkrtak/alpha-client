@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/authentication_bloc/bloc.dart';
 import '../blocs/sign_in_bloc/bloc.dart';
 import '../blocs/sign_up_bloc/sign_up_bloc.dart';
+import '../screens/sign_up_screen_1.dart';
+import '../util/app_localizations.dart';
 import '../widgets/outlined_text_field.dart';
 import '../widgets/rounded_button.dart';
-import 'sign_up_screen_1.dart';
 
 class SignInScreen extends StatelessWidget {
   @override
@@ -51,13 +52,23 @@ class _SignInFormState extends State<_SignInForm> {
   Widget build(BuildContext context) {
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
-        if (state.isFailure) {
-          final snackBar = SnackBar(content: Text('Failed to sing in. Please try again later.'));
-          Scaffold.of(context).showSnackBar(snackBar);
-        }
         if (state.isSubmitting) {
-          final snackBar = SnackBar(content: Text('Signing in...'));
-          Scaffold.of(context).showSnackBar(snackBar);
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context).translate("sign_in_submitting"),
+              ),
+            ),
+          );
+        }
+        if (state.isFailure) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context).translate("sign_in_failure"),
+              ),
+            ),
+          );
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
@@ -85,16 +96,20 @@ class _SignInFormState extends State<_SignInForm> {
                         textKey: 'national_id',
                         keyboardType: TextInputType.number,
                         controller: _nationalIdController,
-                        validator: (_) =>
-                            !state.isNationalIdValid ? 'Invalid Id' : null,
+                        validator: (_) => !state.isNationalIdValid
+                            ? AppLocalizations.of(context)
+                                .translate("invalid_id")
+                            : null,
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 32)),
                       OutlinedTextField(
                         textKey: 'password',
                         obscureText: true,
                         controller: _passwordController,
-                        validator: (_) =>
-                            !state.isPasswordValid ? 'Invalid Password' : null,
+                        validator: (_) => !state.isPasswordValid
+                            ? AppLocalizations.of(context)
+                                .translate("invalid_password")
+                            : null,
                       ),
                       Padding(padding: EdgeInsets.only(bottom: 72)),
                       RoundedButton(

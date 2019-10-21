@@ -92,28 +92,29 @@ class _TicketTabState extends State<TicketTab> {
           ),
           BlocBuilder<QuantityBloc, int>(
             builder: (context, state) => Counter(
-                titleKey: 'quantity',
-                value: state,
-                onIncrement: _isNextTotalValid(
-                        nextQuantity:
-                            _quantityBloc.currentState + QuantityBloc.step)
-                    ? () => _quantityBloc.dispatch(CounterEvent.increment)
-                    : null,
-                onDecrement: () =>
-                    _quantityBloc.dispatch(CounterEvent.decrement)),
+              titleKey: 'quantity',
+              value: state,
+              onIncrement: _isNextTotalValid(
+                      nextQuantity:
+                          _quantityBloc.currentState + QuantityBloc.step)
+                  ? () => _quantityBloc.dispatch(CounterEvent.increment)
+                  : null,
+              onDecrement: () => _quantityBloc.dispatch(CounterEvent.decrement),
+            ),
           ),
           SizedBox(
             height: 8,
           ),
           BlocBuilder<FeesBloc, double>(
             builder: (context, state) => Counter(
-                titleKey: 'fees',
-                value: state,
-                onIncrement: _isNextTotalValid(
-                        nextFees: _feesBloc.currentState + FeesBloc.step)
-                    ? () => _feesBloc.dispatch(CounterEvent.increment)
-                    : null,
-                onDecrement: () => _feesBloc.dispatch(CounterEvent.decrement)),
+              titleKey: 'fees',
+              value: state,
+              onIncrement: _isNextTotalValid(
+                      nextFees: _feesBloc.currentState + FeesBloc.step)
+                  ? () => _feesBloc.dispatch(CounterEvent.increment)
+                  : null,
+              onDecrement: () => _feesBloc.dispatch(CounterEvent.decrement),
+            ),
           ),
           SizedBox(
             height: 24,

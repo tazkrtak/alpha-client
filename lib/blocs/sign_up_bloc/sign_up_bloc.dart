@@ -54,7 +54,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is ConfirmPasswordChanged) {
       yield* _mapConfirmPasswordChangedToState(
-          event.password, event.confirmPassword);
+        event.password,
+        event.confirmPassword,
+      );
     } else if (event is Submitted) {
       yield* _mapFormSubmittedToState(event.user);
     }
@@ -92,7 +94,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   Stream<SignUpState> _mapConfirmPasswordChangedToState(
-      String password, String confirmPassword) async* {
+    String password,
+    String confirmPassword,
+  ) async* {
     yield currentState.update(
       isConfirmPasswordValid: password == confirmPassword,
     );

@@ -43,7 +43,7 @@ class TransactionCard extends StatelessWidget {
             BoxShadow(
               offset: Offset(1.2, 2.4),
               color: Colors.black12,
-              blurRadius: 0.64,
+              blurRadius: .64,
             ),
           ],
         ),
@@ -73,7 +73,7 @@ class TransactionCard extends StatelessWidget {
               width: 32,
               child: Center(
                 child: VerticalDivider(
-                  thickness: 0.5,
+                  thickness: .5,
                   color: Colors.blueGrey,
                 ),
               ),

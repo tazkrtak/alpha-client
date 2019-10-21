@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:tazkrtak/models/ticket.dart';
+
+import '../../models/ticket.dart';
 
 class QrEvent extends Equatable {
   final Ticket ticket;
@@ -7,7 +8,5 @@ class QrEvent extends Equatable {
   QrEvent(this.ticket);
 
   @override
-  String toString() {
-    return '''QrEvent { ticket: $ticket }''';
-  }
+  String toString() => 'QrEvent { ticket: $ticket }';
 }

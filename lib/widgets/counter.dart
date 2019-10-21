@@ -24,7 +24,7 @@ class Counter extends StatelessWidget {
         Text(
           AppLocalizations.of(context).translate(titleKey),
           style: TextStyle(
-            color: Colors.black87.withOpacity(0.64),
+            color: Colors.black87.withOpacity(.64),
             fontSize: 18,
           ),
         ),

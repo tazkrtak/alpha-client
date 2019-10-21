@@ -7,7 +7,11 @@ class RoundedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool outlined;
 
-  RoundedButton({this.textKey, this.onPressed, this.outlined = false});
+  RoundedButton({
+    this.textKey,
+    this.onPressed,
+    this.outlined = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class RoundedButton extends StatelessWidget {
           side: outlined
               ? BorderSide(color: Colors.green, width: 2.5)
               : BorderSide.none,
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
           AppLocalizations.of(context).translate(textKey),

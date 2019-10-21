@@ -38,7 +38,7 @@ class QuantityBloc extends CounterBloc<int> {
 class FeesBloc extends CounterBloc<double> {
   static double minValue = 3;
   static double maxValue = 10;
-  static double step = 0.5;
+  static double step = .5;
 
   FeesBloc() : super(minValue, maxValue, step);
 }
