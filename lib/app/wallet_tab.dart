@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/user.dart';
 import '../widgets/animated_chart.dart';
 import '../widgets/list_title_modal_bottom.dart';
+import '../widgets/transaction_card.dart';
+import '../blocs/transactions_bloc/bloc.dart';
 import 'account_screen.dart';
 
 class WalletTab extends StatefulWidget {
@@ -15,6 +18,8 @@ class WalletTab extends StatefulWidget {
 }
 
 class _WalletTabState extends State<WalletTab> {
+  final ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +32,26 @@ class _WalletTabState extends State<WalletTab> {
               children: <Widget>[
                 SizedBox(height: 8),
                 AnimatedChart(balance: 50),
+                BlocBuilder<TransactionsBloc, TransactionsState>(
+                  builder: (context, state) {
+                    if (state is TransactionLoading) {
+                      return CircularProgressIndicator();
+                    } else if (state is TransactionsLoaded) {
+                      var transactions = state.transactions;
+                      return ListView.builder(
+                        controller: scrollController,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: transactions.length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          return TransactionCard(transactions[index]);
+                        },
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -71,6 +96,12 @@ class _WalletTabState extends State<WalletTab> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   void _onAccountButtonPressed() {

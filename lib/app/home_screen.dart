@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../blocs/transactions_bloc/bloc.dart';
 import '../blocs/counter_bloc/bloc.dart';
 import '../blocs/qr_bloc/bloc.dart';
 import '../blocs/timer_bloc/bloc.dart';
 import '../models/user.dart';
+import '../repos/transaction_repository.dart';
 import '../util/ticker.dart';
 import '../util/totp.dart';
 import 'wallet_tab.dart';
@@ -65,6 +66,11 @@ class _Main extends State<HomeScreen> {
             BlocProvider<FeesBloc>(
               builder: (BuildContext context) => FeesBloc(),
             ),
+            BlocProvider<TransactionsBloc>(
+              builder: (BuildContext context) =>
+                  TransactionsBloc(widget._user, TransactionsRepository())
+                    ..dispatch(LoadTransactions()),
+            )
           ],
           child: TabBarView(
             children: <Widget>[
