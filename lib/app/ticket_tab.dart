@@ -5,8 +5,10 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../blocs/counter_bloc/bloc.dart';
 import '../blocs/qr_bloc/bloc.dart';
 import '../blocs/timer_bloc/bloc.dart';
+import '../models/ticket.dart';
 import '../models/user.dart';
 import '../util/app_localizations.dart';
+import '../util/totp.dart';
 import '../widgets/counter.dart';
 import '../widgets/qr_container.dart';
 
@@ -130,12 +132,16 @@ class _TicketTabState extends State<TicketTab> {
   }
 
   void _dispatchQrEvent({int quantity, double fees}) {
-    _qrBloc.dispatch(QrEvent(
-      id: widget._user.nationalId,
-      secret: widget._user.secret,
-      quantity: quantity ?? _quantityBloc.currentState,
-      fees: fees ?? _feesBloc.currentState,
-    ));
+    _qrBloc.dispatch(
+      QrEvent(
+        Ticket(
+          id: widget._user.nationalId,
+          totp: TOTP.generateCode(widget._user.secret),
+          quantity: quantity ?? _quantityBloc.currentState,
+          fees: fees ?? _feesBloc.currentState,
+        ),
+      ),
+    );
   }
 
   void _updateTotal() {
