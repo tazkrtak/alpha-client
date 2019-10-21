@@ -8,6 +8,7 @@ class User {
   String password;
   double balance;
   String secret;
+  String lastTransactionId;
 
   User({
     this.name,
@@ -17,6 +18,7 @@ class User {
     this.password,
     this.balance,
     this.secret,
+    this.lastTransactionId,
   });
 
   factory User.fromDocument(DocumentSnapshot doc) {
@@ -28,6 +30,7 @@ class User {
       password: doc['password'],
       balance: doc['balance'].toDouble(),
       secret: doc['secret'],
+      lastTransactionId: doc['lastTransactionId'],
     );
   }
 
@@ -40,6 +43,7 @@ class User {
       'password': password,
       'balance': balance,
       'secret': secret,
+      'lastTransactionId': lastTransactionId,
     };
   }
 
@@ -52,7 +56,8 @@ class User {
       nationalId: $nationalId,
       password: $password,
       balance: $balance,
-      secret: $secret
+      secret: $secret,
+      lastTransactionId: $lastTransactionId
     }''';
   }
 }
