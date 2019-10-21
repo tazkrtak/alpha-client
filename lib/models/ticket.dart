@@ -1,3 +1,5 @@
+import 'package:encrypt/encrypt.dart';
+
 class Ticket {
   String id;
   String totp;
@@ -7,8 +9,7 @@ class Ticket {
   get data => '$id;$totp;$quantity;$fees';
 
   get encryptedData {
-    // TODO: Encrypt data before returning
-    return data;
+    return _encrypt(data);
   }
 
   Ticket({
@@ -17,6 +18,14 @@ class Ticket {
     this.quantity,
     this.fees,
   });
+
+  String _encrypt(String encryptedText) {
+    final key = Key.fromUtf8('TAZKRTAKTAZKRTAK');
+    final iv = IV.fromUtf8('TAZKRTAKTAZKRTAK');
+    final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
+    final encrypted = encrypter.encrypt(encryptedText, iv: iv);
+    return encrypted.base64;
+  }
 
   @override
   String toString() {
