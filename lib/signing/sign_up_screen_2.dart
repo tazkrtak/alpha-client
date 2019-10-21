@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tazkrtak/util/totp.dart';
 
 import '../blocs/authentication_bloc/bloc.dart';
 import '../blocs/sign_up_bloc/bloc.dart';
 import '../models/user.dart';
 import '../signing/sign_up_screen_1.dart';
-import '../util/secret_generator.dart';
 import '../widgets/outlined_text_field.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/rounded_button.dart';
@@ -58,8 +58,8 @@ class _SignUpFormState extends State<_SignUpForm> {
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-           final snackBar = SnackBar(content: Text('Signing up...'));
-           Scaffold.of(context).showSnackBar(snackBar);
+          final snackBar = SnackBar(content: Text('Signing up...'));
+          Scaffold.of(context).showSnackBar(snackBar);
         }
         if (state.isFailure) {
           final snackBar = SnackBar(content: Text('Failed to sing up. Please try again later.'));
@@ -164,13 +164,14 @@ class _SignUpFormState extends State<_SignUpForm> {
     _signUpBloc.dispatch(
       Submitted(
         User(
-            name: SignUpScreen1.name,
-            email: SignUpScreen1.email,
-            phoneNumber: SignUpScreen1.phoneNumber,
-            nationalId: _nationalIdController.text,
-            password: _passwordController.text,
-            balance: 0,
-            secret: SecretGenerator.generate()),
+          name: SignUpScreen1.name,
+          email: SignUpScreen1.email,
+          phoneNumber: SignUpScreen1.phoneNumber,
+          nationalId: _nationalIdController.text,
+          password: _passwordController.text,
+          balance: 0,
+          secret: TOTP.generateSecret(),
+        ),
       ),
     );
     SignUpScreen1.name = null;

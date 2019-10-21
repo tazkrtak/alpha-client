@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../util/totp.dart';
 
 class QrEvent extends Equatable {
@@ -14,7 +15,7 @@ class QrEvent extends Equatable {
     this.quantity,
     this.fees,
   }) : super([id, secret, quantity, fees]) {
-    int totp = TOTP.generateTOTPCode(secret);
+    var totp = TOTP.generateCode(secret);
     data = '$id;$totp;$quantity;$fees';
   }
 

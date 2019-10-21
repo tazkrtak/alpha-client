@@ -22,9 +22,9 @@ class TicketTab extends StatefulWidget {
 class _TicketTabState extends State<TicketTab> {
   double _total;
   QrBloc _qrBloc;
+  TimerBloc _timerBloc;
   QuantityBloc _quantityBloc;
   FeesBloc _feesBloc;
-  TimerBloc _timerBloc;
 
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _TicketTabState extends State<TicketTab> {
             builder: (context, state) => LinearPercentIndicator(
               width: 100,
               lineHeight: 10,
-              percent: state * (1 / _timerBloc.resetDuration),
+              percent: state * (1 / _timerBloc.resetInterval),
               alignment: MainAxisAlignment.center,
               addAutomaticKeepAlive: false,
               backgroundColor: Colors.greenAccent,

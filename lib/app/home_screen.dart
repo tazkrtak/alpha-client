@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/transactions_bloc/bloc.dart';
+
 import '../blocs/counter_bloc/bloc.dart';
 import '../blocs/qr_bloc/bloc.dart';
 import '../blocs/timer_bloc/bloc.dart';
+import '../blocs/transactions_bloc/bloc.dart';
 import '../models/user.dart';
 import '../repos/transaction_repository.dart';
-import '../util/ticker.dart';
 import '../util/totp.dart';
-import 'wallet_tab.dart';
 import 'ticket_tab.dart';
+import 'wallet_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   final User _user;
@@ -57,8 +57,8 @@ class _Main extends State<HomeScreen> {
             ),
             BlocProvider<TimerBloc>(
               builder: (BuildContext context) =>
-                  TimerBloc(Ticker(), TOTP.VALID_DURATION)
-                    ..dispatch(StartEvent(TOTP.expiresIn)),
+                  TimerBloc(TOTP.REFRESH_INTERVAL)
+                    ..dispatch(Start(TOTP.expiresIn)),
             ),
             BlocProvider<QuantityBloc>(
               builder: (BuildContext context) => QuantityBloc(),
