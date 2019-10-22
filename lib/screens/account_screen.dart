@@ -33,82 +33,80 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        textTheme: Theme.of(context).appBarTheme.textTheme,
         title: Text(AppLocalizations.of(context).translate('account')),
+        backgroundColor: Theme.of(context).appBarTheme.color,
       ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                Text(
-                  widget._user.name,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  widget._user.nationalId,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                OutlinedTextField(
-                  textKey: 'email',
-                  controller: _emailController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 16)),
-                OutlinedTextField(
-                  textKey: 'mobile_number',
-                  prefixText: '+2',
-                  keyboardType: TextInputType.number,
-                  controller: _phoneNumberController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 16)),
-                OutlinedTextField(
-                  textKey: 'password',
-                  obscureText: true,
-                  controller: _passwordController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 16)),
-                OutlinedTextField(
-                  textKey: 'confirm_password',
-                  obscureText: true,
-                  controller: _confirmController,
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 32)),
-                RoundedButton(
-                  textKey: 'update',
-                  onPressed: () {
-                    /* TODO: Update Account here */
-                  },
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 16)),
-                RoundedButton(
-                  textKey: 'delete_account',
-                  onPressed: () {
-                    /* TODO: Delete Account here */
-                  },
-                ),
-                Padding(padding: EdgeInsets.only(bottom: 16)),
-                RoundedButton(
-                  textKey: 'sign_out',
-                  onPressed: () {
-                    Navigator.pop(context);
-                    BlocProvider.of<AuthenticationBloc>(context)
-                        .dispatch(SignedOut());
-                  },
-                ),
-              ],
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              widget._user.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
+            Text(
+              widget._user.nationalId,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            SizedBox(height: 32.0),
+            OutlinedTextField(
+              textKey: 'email',
+              controller: _emailController,
+            ),
+            SizedBox(height: 16.0),
+            OutlinedTextField(
+              textKey: 'mobile_number',
+              prefixText: '+2',
+              keyboardType: TextInputType.number,
+              controller: _phoneNumberController,
+            ),
+            SizedBox(height: 16.0),
+            OutlinedTextField(
+              textKey: 'password',
+              obscureText: true,
+              controller: _passwordController,
+            ),
+            SizedBox(height: 16.0),
+            OutlinedTextField(
+              textKey: 'confirm_password',
+              obscureText: true,
+              controller: _confirmController,
+            ),
+            SizedBox(height: 32.0),
+            RoundedButton(
+              textKey: 'update',
+              onPressed: () {
+                /* TODO: Update Account here */
+              },
+            ),
+            SizedBox(height: 24.0),
+            RoundedButton(
+              textKey: 'delete_account',
+              onPressed: () {
+                /* TODO: Delete Account here */
+              },
+            ),
+            SizedBox(height: 24.0),
+            RoundedButton(
+              textKey: 'sign_out',
+              onPressed: () {
+                Navigator.pop(context);
+                BlocProvider.of<AuthenticationBloc>(context)
+                    .dispatch(SignedOut());
+              },
+            ),
+          ],
         ),
       ),
     );

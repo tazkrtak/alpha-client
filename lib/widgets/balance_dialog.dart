@@ -13,7 +13,7 @@ class BalanceDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-     contentPadding: EdgeInsets.all(16),
+      contentPadding: EdgeInsets.all(24.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -21,6 +21,7 @@ class BalanceDialog extends StatelessWidget {
         AppLocalizations.of(context).translate('recharge'),
         textAlign: TextAlign.center,
       ),
+      backgroundColor: Theme.of(context).backgroundColor,
       content: SingleChildScrollView(
         child: ListBody(
           children: <Widget>[

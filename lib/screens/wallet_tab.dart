@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/transactions_bloc/bloc.dart';
 import '../models/user.dart';
 import '../widgets/balance_chart.dart';
+import '../widgets/balance_dialog.dart';
 import '../widgets/modal_sheet.dart';
 import '../widgets/transaction_card.dart';
-import '../widgets/balance_dialog.dart';
 import 'account_screen.dart';
 
 class WalletTab extends StatefulWidget {
@@ -25,41 +25,42 @@ class _WalletTabState extends State<WalletTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(height: 8),
-                BalanceChart(current: 40, withdrawn: 10),
-                BlocBuilder<TransactionsBloc, TransactionsState>(
-                  builder: (context, state) {
-                    if (state is TransactionsLoaded) {
-                      var transactions = state.transactions;
-                      return ListView.builder(
-                        controller: _scrollController,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: transactions.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return TransactionCard(transactions[index]);
-                        },
-                      );
-                    } else if (state is TransactionLoading) {
-                      return CircularProgressIndicator();
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-              ],
-            ),
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(32.0),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(height: 16),
+              BalanceChart(current: 40, withdrawn: 10),
+              BlocBuilder<TransactionsBloc, TransactionsState>(
+                builder: (context, state) {
+                  if (state is TransactionsLoaded) {
+                    var transactions = state.transactions;
+                    return ListView.builder(
+                      controller: _scrollController,
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.all(24.0),
+                      shrinkWrap: true,
+                      itemCount: transactions.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return TransactionCard(transactions[index]);
+                      },
+                    );
+                  } else if (state is TransactionLoading) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
+        color: Theme.of(context).bottomAppBarColor,
         shape: CircularNotchedRectangle(),
         child: Padding(
           padding: EdgeInsets.all(8),
@@ -70,7 +71,7 @@ class _WalletTabState extends State<WalletTab> {
               IconButton(
                 icon: Icon(
                   Icons.menu,
-                  color: Colors.blueGrey,
+                  color: Theme.of(context).iconTheme.color,
                   size: 28,
                 ),
                 onPressed: _onModalButtonPressed,
@@ -78,7 +79,7 @@ class _WalletTabState extends State<WalletTab> {
               IconButton(
                 icon: Icon(
                   Icons.account_circle,
-                  color: Colors.blueGrey,
+                  color: Theme.of(context).iconTheme.color,
                   size: 28,
                 ),
                 onPressed: _onAccountButtonPressed,
@@ -88,10 +89,10 @@ class _WalletTabState extends State<WalletTab> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).primaryColor,
         child: Icon(
           Icons.add,
-          color: Colors.white,
+          color: Theme.of(context).primaryIconTheme.color,
           size: 28,
         ),
         onPressed: () {

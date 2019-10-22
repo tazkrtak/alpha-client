@@ -13,10 +13,14 @@ class ModalTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: Colors.blueGrey),
+      leading: Icon(icon, color: Theme.of(context).iconTheme.color),
       title: Text(
         AppLocalizations.of(context).translate(textKey),
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).textTheme.subtitle.color,
+          fontSize: 16.0,
+        ),
       ),
       onTap: onTap,
     );

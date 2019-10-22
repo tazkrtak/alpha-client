@@ -63,71 +63,73 @@ class _TicketTabState extends State<TicketTab> {
           },
         ),
       ],
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          BlocBuilder<QrBloc, String>(
-            builder: (context, state) => QrContainer(
-              data: state,
-            ),
-          ),
-          BlocBuilder<TimerBloc, int>(
-            builder: (context, state) => LinearPercentIndicator(
-              width: 100,
-              lineHeight: 10,
-              percent: state * (1 / _timerBloc.resetInterval),
-              alignment: MainAxisAlignment.center,
-              addAutomaticKeepAlive: false,
-              backgroundColor: Colors.greenAccent,
-              progressColor: Colors.green,
-              center: Text(
-                '$state',
-                style: TextStyle(fontSize: 8),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 16),
+            BlocBuilder<QrBloc, String>(
+              builder: (context, state) => QrContainer(
+                data: state,
               ),
             ),
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          BlocBuilder<QuantityBloc, int>(
-            builder: (context, state) => Counter(
-              titleKey: 'quantity',
-              value: state,
-              onIncrement: _isNextTotalValid(
-                      nextQuantity:
-                          _quantityBloc.currentState + QuantityBloc.step)
-                  ? () => _quantityBloc.dispatch(CounterEvent.increment)
-                  : null,
-              onDecrement: () => _quantityBloc.dispatch(CounterEvent.decrement),
+            SizedBox(height: 16),
+            BlocBuilder<TimerBloc, int>(
+              builder: (context, state) => LinearPercentIndicator(
+                width: 100,
+                lineHeight: 14,
+                percent: state * (1 / _timerBloc.resetInterval),
+                alignment: MainAxisAlignment.center,
+                addAutomaticKeepAlive: false,
+                backgroundColor: Theme.of(context).primaryColorLight,
+                progressColor: Theme.of(context).primaryColor,
+                center: Text(
+                  '$state',
+                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
+                ),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          BlocBuilder<FeesBloc, double>(
-            builder: (context, state) => Counter(
-              titleKey: 'fees',
-              value: state,
-              onIncrement: _isNextTotalValid(
-                      nextFees: _feesBloc.currentState + FeesBloc.step)
-                  ? () => _feesBloc.dispatch(CounterEvent.increment)
-                  : null,
-              onDecrement: () => _feesBloc.dispatch(CounterEvent.decrement),
+            SizedBox(height: 16),
+            BlocBuilder<QuantityBloc, int>(
+              builder: (context, state) => Counter(
+                titleKey: 'quantity',
+                value: state,
+                onIncrement: _isNextTotalValid(
+                        nextQuantity:
+                            _quantityBloc.currentState + QuantityBloc.step)
+                    ? () => _quantityBloc.dispatch(CounterEvent.increment)
+                    : null,
+                onDecrement: () =>
+                    _quantityBloc.dispatch(CounterEvent.decrement),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          Text(
-            '$_total',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
+            SizedBox(height: 16.0),
+            BlocBuilder<FeesBloc, double>(
+              builder: (context, state) => Counter(
+                titleKey: 'fees',
+                value: state,
+                onIncrement: _isNextTotalValid(
+                        nextFees: _feesBloc.currentState + FeesBloc.step)
+                    ? () => _feesBloc.dispatch(CounterEvent.increment)
+                    : null,
+                onDecrement: () => _feesBloc.dispatch(CounterEvent.decrement),
+              ),
             ),
-          ),
-          Text(AppLocalizations.of(context).translate("currency"))
-        ],
+            SizedBox(height: 16),
+            Text(
+              '$_total',
+              style: TextStyle(
+                color: Theme.of(context).textTheme.title.color,
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              AppLocalizations.of(context).translate("currency"),
+            )
+          ],
+        ),
       ),
     );
   }
