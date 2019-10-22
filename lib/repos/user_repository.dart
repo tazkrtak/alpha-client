@@ -11,7 +11,7 @@ class UserRepository {
   }
 
   static Future<void> signUp(User user) async {
-    _auth.signUp(user);
+    await _auth.signUp(user);
   }
 
   static Future<void> signOut() async {
