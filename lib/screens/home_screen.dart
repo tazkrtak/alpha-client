@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BlocProvider<TimerBloc>(
               builder: (BuildContext context) =>
-                  TimerBloc(TOTP.REFRESH_INTERVAL)
+                  TimerBloc(TOTP.INTERVAL)
                     ..dispatch(Start(TOTP.expiresIn)),
             ),
             BlocProvider<QuantityBloc>(
