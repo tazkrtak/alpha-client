@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,6 +7,7 @@ import '../models/user.dart';
 import '../widgets/balance_chart.dart';
 import '../widgets/modal_sheet.dart';
 import '../widgets/transaction_card.dart';
+import '../widgets/balance_dialog.dart';
 import 'account_screen.dart';
 
 class WalletTab extends StatefulWidget {
@@ -92,7 +94,15 @@ class _WalletTabState extends State<WalletTab> {
           color: Colors.white,
           size: 28,
         ),
-        onPressed: () {},
+        onPressed: () {
+          showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return BalanceDialog(
+                  onPressed: () => Navigator.of(context).pop(),
+                );
+              });
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
