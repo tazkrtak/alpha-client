@@ -9,6 +9,7 @@ class OutlinedTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final String prefixText;
+  final String suffixText;
   final FormFieldValidator<String> validator;
 
   OutlinedTextField({
@@ -18,6 +19,7 @@ class OutlinedTextField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.prefixText,
+    this.suffixText
   });
 
   @override
@@ -31,6 +33,7 @@ class OutlinedTextField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
           prefixText: prefixText,
+          suffixText: suffixText,
           border: OutlineInputBorder(borderSide: BorderSide()),
           labelText: AppLocalizations.of(context).translate(textKey),
           labelStyle: TextStyle(
