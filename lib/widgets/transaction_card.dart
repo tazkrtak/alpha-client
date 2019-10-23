@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:tazkrtak/util/app_localizations.dart';
 
 import '../models/transaction.dart';
 
@@ -29,7 +30,8 @@ class TransactionCard extends StatelessWidget {
         Clipboard.setData(ClipboardData(text: id));
         Scaffold.of(context).showSnackBar(
           SnackBar(
-            content: Text('Transaction ID copied to clipboard.'),
+            content: Text(
+                AppLocalizations.of(context).translate("transaction_copied")),
           ),
         );
       },
@@ -38,7 +40,7 @@ class TransactionCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           boxShadow: [
             BoxShadow(
               offset: Offset(1.2, 2.4),
@@ -49,32 +51,35 @@ class TransactionCard extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "$month".toUpperCase(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "$month".toUpperCase(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                Text(
-                  "$day",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                  Text(
+                    "$day",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(
               height: 48,
-              width: 32,
+              width: 48,
               child: Center(
                 child: VerticalDivider(
                   thickness: .5,
-                  color: Colors.blueGrey,
+                  color: Theme.of(context).iconTheme.color,
                 ),
               ),
             ),
@@ -86,15 +91,15 @@ class TransactionCard extends StatelessWidget {
                   Text(
                     "$issuer",
                     style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.subtitle.color,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   SizedBox(height: 4),
                   Text(
                     "$date",
                     style: TextStyle(
-                      color: Colors.blueGrey.withOpacity(.64),
+                      color: Theme.of(context).textTheme.subhead.color,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -102,7 +107,7 @@ class TransactionCard extends StatelessWidget {
                   Text(
                     "$time",
                     style: TextStyle(
-                      color: Colors.blueGrey.withOpacity(.64),
+                      color: Theme.of(context).textTheme.subhead.color,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -110,14 +115,16 @@ class TransactionCard extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: 16),
-            Expanded(
+            Align(
+              alignment: Alignment.centerRight,
               child: Text(
                 amount.isNegative ? "$amountRounded" : "+$amountRounded",
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: amount.isNegative ? Colors.red : Colors.green,
+                  color: amount.isNegative
+                      ? Theme.of(context).errorColor
+                      : Colors.green,
                   fontSize: 24,
                 ),
               ),

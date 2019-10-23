@@ -9,14 +9,15 @@ class ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LinearPercentIndicator(
-      width: MediaQuery.of(context).size.width - 70,
+      alignment: MainAxisAlignment.center,
+      width: MediaQuery.of(context).size.width - 88.0,
       animation: true,
       lineHeight: 40,
       animationDuration: 1500,
       percent: progress / 100,
       center: Text("$progress%", style: TextStyle(color: Colors.white)),
       linearStrokeCap: LinearStrokeCap.roundAll,
-      progressColor: Colors.green,
+      progressColor: Theme.of(context).primaryColor,
     );
   }
 }

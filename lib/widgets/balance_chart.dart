@@ -18,12 +18,12 @@ class BalanceChart extends StatelessWidget {
           <CircularSegmentEntry>[
             CircularSegmentEntry(
               withdrawn * (1 / current + withdrawn),
-              Colors.red,
+              Theme.of(context).errorColor,
               rankKey: 'withdrawn',
             ),
             CircularSegmentEntry(
               current * (1 / current + withdrawn),
-              Colors.yellowAccent,
+              Theme.of(context).accentColor,
               rankKey: 'current',
             ),
           ],
@@ -33,7 +33,7 @@ class BalanceChart extends StatelessWidget {
       chartType: CircularChartType.Radial,
       holeLabel: current.toString(),
       labelStyle: TextStyle(
-        color: Colors.green,
+        color: Theme.of(context).textTheme.title.color,
         fontWeight: FontWeight.bold,
         fontSize: 48,
       ),

@@ -31,29 +31,54 @@ class OutlinedTextField extends StatelessWidget {
       autocorrect: false,
       controller: controller,
       validator: validator,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: Theme.of(context).textTheme.title.color,
+      ),
       decoration: InputDecoration(
+          contentPadding:
+              EdgeInsets.all(16.0),
           prefixText: prefixText,
           suffixText: suffixText,
+          prefixStyle: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: Theme.of(context).textTheme.title.color,
+          ),
           border: OutlineInputBorder(borderSide: BorderSide()),
           labelText: AppLocalizations.of(context).translate(textKey),
           labelStyle: TextStyle(
-            color: Colors.blueGrey,
-            fontWeight: FontWeight.bold,
+            color: Theme.of(context).textTheme.title.color,
+            fontWeight: FontWeight.normal,
+            fontSize: 16,
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
-              color: Colors.green,
-              width: 2.5,
-            ),
+                color: Theme.of(context).primaryColor,
+                width: 2.5,
+                style: BorderStyle.solid),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
-              color: Colors.blueGrey,
-              width: 2.5,
-            ),
-          )),
+                color: Theme.of(context).highlightColor,
+                width: 2.5,
+                style: BorderStyle.solid),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(
+                color: Theme.of(context).errorColor,
+                width: 2.5,
+              )),
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(
+                color: Theme.of(context).errorColor,
+                width: 2.5,
+              ))),
     );
   }
 }

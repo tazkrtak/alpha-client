@@ -26,23 +26,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.green,
+          textTheme: Theme.of(context).appBarTheme.textTheme,
+          backgroundColor: Theme.of(context).appBarTheme.color,
           flexibleSpace: SafeArea(
             child: TabBar(
               tabs: <Widget>[
                 Tab(
                   icon: Icon(
-                    Icons.home,
-                    color: Colors.white,
+                    Icons.confirmation_number,
+                    color: Theme.of(context).appBarTheme.iconTheme.color,
                     size: 32,
                   ),
                 ),
                 Tab(
                   icon: Icon(
                     Icons.account_balance_wallet,
-                    color: Colors.white,
+                    color: Theme.of(context).appBarTheme.iconTheme.color,
                     size: 32,
                   ),
                 )
@@ -57,8 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BlocProvider<TimerBloc>(
               builder: (BuildContext context) =>
-                  TimerBloc(TOTP.INTERVAL)
-                    ..dispatch(Start(TOTP.expiresIn)),
+                  TimerBloc(TOTP.INTERVAL)..dispatch(Start(TOTP.expiresIn)),
             ),
             BlocProvider<QuantityBloc>(
               builder: (BuildContext context) => QuantityBloc(),

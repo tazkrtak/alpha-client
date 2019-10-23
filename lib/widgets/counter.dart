@@ -24,9 +24,9 @@ class Counter extends StatelessWidget {
         Text(
           AppLocalizations.of(context).translate(titleKey),
           style: TextStyle(
-            color: Colors.black87.withOpacity(.64),
-            fontSize: 18,
-          ),
+              color: Theme.of(context).textTheme.body2.color,
+              fontSize: 18,
+              fontWeight: FontWeight.w600),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -38,13 +38,13 @@ class Counter extends StatelessWidget {
                 onHold: onDecrement ?? () => {},
                 holdTimeout: Duration(milliseconds: 200),
                 child: RawMaterialButton(
-                  fillColor: Colors.red,
+                  fillColor: Theme.of(context).errorColor,
                   shape: CircleBorder(),
-                  elevation: 4,
+                  elevation: 2,
                   onPressed: onDecrement,
                   child: Icon(
                     Icons.remove,
-                    color: Colors.white,
+                    color: Theme.of(context).primaryIconTheme.color,
                   ),
                 ),
               ),
@@ -56,7 +56,7 @@ class Counter extends StatelessWidget {
                   child: Text(
                     '$value',
                     style: TextStyle(
-                      color: Colors.black87,
+                      color: Theme.of(context).textTheme.body1.color,
                       fontSize: 24,
                     ),
                   ),
@@ -73,11 +73,11 @@ class Counter extends StatelessWidget {
                 child: RawMaterialButton(
                   fillColor: Colors.green,
                   shape: CircleBorder(),
-                  elevation: 4,
+                  elevation: 2,
                   onPressed: onIncrement,
                   child: Icon(
                     Icons.add,
-                    color: Colors.white,
+                    color: Theme.of(context).primaryIconTheme.color,
                   ),
                 ),
               ),

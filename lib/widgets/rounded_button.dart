@@ -16,25 +16,40 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
-      height: 56,
-      splashColor: Colors.greenAccent,
+      splashColor: Theme.of(context).primaryColorLight,
+      minWidth: 180.0,
       child: RaisedButton(
-        color: outlined ? Colors.white : Colors.green,
+        color: outlined
+            ? Theme.of(context).backgroundColor
+            : Theme.of(context).primaryColor,
         textColor: Colors.white,
         textTheme: ButtonTextTheme.accent,
+        elevation: 0,
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
           side: outlined
-              ? BorderSide(color: Colors.green, width: 2.5)
+              ? BorderSide(
+                  color: Theme.of(context).primaryColor,
+                  width: 2.5,
+                  style: BorderStyle.solid,
+                )
               : BorderSide.none,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(32),
         ),
-        child: Text(
-          AppLocalizations.of(context).translate(textKey),
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: outlined ? Colors.green : Colors.white),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 16.0,
+          ),
+          child: Text(
+            AppLocalizations.of(context).translate(textKey).toUpperCase(),
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: outlined
+                    ? Theme.of(context).textTheme.button.color
+                    : Colors.white),
+          ),
         ),
       ),
     );
