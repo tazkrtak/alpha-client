@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../blocs/counter_bloc/bloc.dart';
+import '../blocs/language_bloc/language_bloc.dart';
 import '../blocs/qr_bloc/bloc.dart';
 import '../blocs/timer_bloc/bloc.dart';
 import '../models/ticket.dart';
@@ -85,7 +87,14 @@ class _TicketTabState extends State<TicketTab> {
                 backgroundColor: Theme.of(context).primaryColorLight,
                 progressColor: Theme.of(context).primaryColor,
                 center: Text(
-                  '$state',
+                  NumberFormat(
+                          '##',
+                          BlocProvider.of<LanguageBloc>(context)
+                              .currentState
+                              .locale
+                              .toString())
+                      .format(state)
+                      .toString(),
                   style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
                 ),
               ),
@@ -118,7 +127,13 @@ class _TicketTabState extends State<TicketTab> {
             ),
             SizedBox(height: 16),
             Text(
-              '$_total',
+              NumberFormat(
+                      '##.##',
+                      BlocProvider.of<LanguageBloc>(context)
+                          .currentState
+                          .locale
+                          .toString())
+                  .format(_total),
               style: TextStyle(
                 color: Theme.of(context).textTheme.title.color,
                 fontSize: 22,

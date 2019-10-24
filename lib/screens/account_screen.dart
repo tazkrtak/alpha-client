@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../blocs/authentication_bloc/bloc.dart';
+import '../blocs/language_bloc/bloc.dart';
 import '../models/user.dart';
 import '../util/app_localizations.dart';
 import '../widgets/outlined_text_field.dart';
@@ -52,7 +54,13 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
             ),
             Text(
-              widget._user.nationalId,
+              NumberFormat(
+                      '##############',
+                      BlocProvider.of<LanguageBloc>(context)
+                          .currentState
+                          .locale
+                          .toString())
+                  .format(int.parse(widget._user.nationalId)),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,

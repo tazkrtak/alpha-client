@@ -57,6 +57,12 @@ final appThemeData = {
         button: TextStyle(
           color: Color(0XFF32BA7C),
         ),
+        display1: TextStyle(
+          color: Colors.black87,
+          fontFamily: 'Almarai',
+          fontWeight: FontWeight.bold,
+          fontSize: 48,
+        ),
       ),
       iconTheme: IconThemeData(color: Colors.blueGrey),
       primaryIconTheme: IconThemeData(color: Colors.white),
@@ -113,6 +119,12 @@ final appThemeData = {
         // Outined Button only, Filled button takes white color.
         button: TextStyle(
           color: Colors.grey[600],
+        ),
+        display1: TextStyle(
+          color: Colors.white,
+          fontFamily: 'Almarai',
+          fontWeight: FontWeight.bold,
+          fontSize: 48,
         ),
       ),
       iconTheme: IconThemeData(
