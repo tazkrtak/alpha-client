@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holding_gesture/holding_gesture.dart';
 import 'package:intl/intl.dart';
 
-import '../blocs/language_bloc/bloc.dart';
+import '../blocs/locale_bloc/bloc.dart';
 import '../util/app_localizations.dart';
 
 class Counter extends StatelessWidget {
@@ -22,6 +22,9 @@ class Counter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var locale = BlocProvider.of<LocaleBloc>(context).locale;
+    var numberFormatter = NumberFormat("##.##", locale);
+
     return Column(
       children: <Widget>[
         Text(
@@ -57,14 +60,7 @@ class Counter extends StatelessWidget {
                 width: 48,
                 child: Center(
                   child: Text(
-                    NumberFormat(
-                            '##.##',
-                            BlocProvider.of<LanguageBloc>(context)
-                                .currentState
-                                .locale
-                                .toString())
-                        .format(value)
-                        .toString(),
+                    numberFormatter.format(value),
                     style: TextStyle(
                       color: Theme.of(context).textTheme.body1.color,
                       fontSize: 24,

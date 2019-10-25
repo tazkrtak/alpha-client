@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/language_bloc/bloc.dart';
+import '../blocs/locale_bloc/bloc.dart';
 import '../blocs/theme_bloc/bloc.dart';
-import '../util/app_themes.dart';
 import '../widgets/modal_tile.dart';
 
 class ModalSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var localeBloc = BlocProvider.of<LocaleBloc>(context);
+    var themeBloc = BlocProvider.of<ThemeBloc>(context);
+
     return Container(
       color: Theme.of(context).backgroundColor,
       child: SingleChildScrollView(
@@ -18,16 +20,10 @@ class ModalSheet extends StatelessWidget {
               textKey: 'switch_language',
               icon: Icons.language,
               onTap: () {
-                if (BlocProvider.of<LanguageBloc>(context)
-                        .currentState
-                        .locale
-                        .languageCode ==
-                    'en') {
-                  BlocProvider.of<LanguageBloc>(context)
-                      .dispatch(LanguageEvent(Locale('ar', 'EG')));
-                } else {
-                  BlocProvider.of<LanguageBloc>(context)
-                      .dispatch(LanguageEvent(Locale('en', '')));
+                if (localeBloc.currentState is EnglishLocale) {
+                  localeBloc.dispatch(LocaleEvent.Arabic);
+                } else if (localeBloc.currentState is ArabicLocale) {
+                  localeBloc.dispatch(LocaleEvent.English);
                 }
                 Navigator.pop(context);
               },
@@ -36,18 +32,10 @@ class ModalSheet extends StatelessWidget {
               textKey: 'switch_theme',
               icon: Icons.invert_colors,
               onTap: () {
-                if (BlocProvider.of<ThemeBloc>(context)
-                        .currentState
-                        .themeData ==
-                    appThemeData[AppTheme.GreenLight]) {
-                  BlocProvider.of<ThemeBloc>(context)
-                      .dispatch(ThemeEvent(AppTheme.AmoledBlack));
-                } else if (BlocProvider.of<ThemeBloc>(context)
-                        .currentState
-                        .themeData ==
-                    appThemeData[AppTheme.AmoledBlack]) {
-                  BlocProvider.of<ThemeBloc>(context)
-                      .dispatch(ThemeEvent(AppTheme.GreenLight));
+                if (themeBloc.currentState is PrimaryTheme) {
+                  themeBloc.dispatch(ThemeEvent.Black);
+                } else if (themeBloc.currentState is BlackTheme) {
+                  themeBloc.dispatch(ThemeEvent.Primary);
                 }
                 Navigator.pop(context);
               },

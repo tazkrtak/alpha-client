@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../blocs/language_bloc/bloc.dart';
+import '../blocs/locale_bloc/bloc.dart';
 import '../models/transaction.dart';
 import '../util/app_localizations.dart';
 
@@ -14,20 +14,20 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String id = transaction.id;
-    String issuer = transaction.issuer;
+    var id = transaction.id;
+    var issuer = transaction.issuer;
+    var amount = transaction.amount;
 
-    var locale =
-        BlocProvider.of<LanguageBloc>(context).currentState.locale.toString();
-    DateTime dateTime = transaction.timestamp.toDate();
-    String month = DateFormat.MMM(locale).format(dateTime);
-    String day = DateFormat.d(locale).format(dateTime);
-    String date = DateFormat.yMd(locale).format(dateTime);
-    String time = DateFormat.jms(locale).format(dateTime);
+    var locale = BlocProvider.of<LocaleBloc>(context).locale;
 
-    double amount = transaction.amount;
-    String amountRounded =
-        NumberFormat('###.#', locale).format(amount).toString();
+    var numberFormatter = NumberFormat("###.##", locale);
+    var amountRounded = numberFormatter.format(amount);
+
+    var dateTime = transaction.timestamp.toDate();
+    var month = DateFormat.MMM(locale).format(dateTime);
+    var day = DateFormat.d(locale).format(dateTime);
+    var date = DateFormat.yMd(locale).format(dateTime);
+    var time = DateFormat.jms(locale).format(dateTime);
 
     return GestureDetector(
       onLongPress: () {
