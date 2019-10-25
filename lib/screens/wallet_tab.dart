@@ -27,7 +27,6 @@ class _WalletTabState extends State<WalletTab> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(32.0),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

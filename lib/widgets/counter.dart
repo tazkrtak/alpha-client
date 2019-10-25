@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:holding_gesture/holding_gesture.dart';
+import 'package:intl/intl.dart';
 
+import '../blocs/language_bloc/bloc.dart';
 import '../util/app_localizations.dart';
 
 class Counter extends StatelessWidget {
@@ -54,7 +57,14 @@ class Counter extends StatelessWidget {
                 width: 48,
                 child: Center(
                   child: Text(
-                    '$value',
+                    NumberFormat(
+                            '##.##',
+                            BlocProvider.of<LanguageBloc>(context)
+                                .currentState
+                                .locale
+                                .toString())
+                        .format(value)
+                        .toString(),
                     style: TextStyle(
                       color: Theme.of(context).textTheme.body1.color,
                       fontSize: 24,

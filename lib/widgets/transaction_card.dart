@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tazkrtak/util/app_localizations.dart';
 
+import '../blocs/language_bloc/bloc.dart';
 import '../models/transaction.dart';
+import '../util/app_localizations.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;
@@ -15,15 +17,17 @@ class TransactionCard extends StatelessWidget {
     String id = transaction.id;
     String issuer = transaction.issuer;
 
+    var locale =
+        BlocProvider.of<LanguageBloc>(context).currentState.locale.toString();
     DateTime dateTime = transaction.timestamp.toDate();
-    String month = DateFormat("MMM").format(dateTime);
-    String day = DateFormat("dd").format(dateTime);
-    String date = DateFormat("dd/MM/yyyy").format(dateTime);
-    String time = DateFormat("hh:mm:ss a").format(dateTime);
+    String month = DateFormat.MMM(locale).format(dateTime);
+    String day = DateFormat.d(locale).format(dateTime);
+    String date = DateFormat.yMd(locale).format(dateTime);
+    String time = DateFormat.jms(locale).format(dateTime);
 
-    RegExp regex = RegExp(r"([.]*0)(?!.*\d)");
     double amount = transaction.amount;
-    String amountRounded = amount.toString().replaceAll(regex, "");
+    String amountRounded =
+        NumberFormat('###.#', locale).format(amount).toString();
 
     return GestureDetector(
       onLongPress: () {
@@ -51,16 +55,20 @@ class TransactionCard extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
+            Expanded(
+              flex: 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    "$month".toUpperCase(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  FittedBox(
+                    alignment: AlignmentDirectional.centerStart,
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      "$month".toUpperCase(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   Text(
@@ -84,6 +92,7 @@ class TransactionCard extends StatelessWidget {
               ),
             ),
             Expanded(
+              flex: 6,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,17 +124,23 @@ class TransactionCard extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                amount.isNegative ? "$amountRounded" : "+$amountRounded",
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: amount.isNegative
-                      ? Theme.of(context).errorColor
-                      : Colors.green,
-                  fontSize: 24,
+            Expanded(
+              flex: 2,
+              child: Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: LimitedBox(
+                  maxHeight: 24,
+                  child: Text(
+                    amount.isNegative ? "$amountRounded" : "+$amountRounded",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: amount.isNegative
+                          ? Theme.of(context).errorColor
+                          : Colors.green,
+                      fontSize: 24,
+                    ),
+                  ),
                 ),
               ),
             )
