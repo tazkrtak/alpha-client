@@ -1,0 +1,1 @@
+enum LocaleEvent { English, Arabic }

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'blocs/authentication_bloc/bloc.dart';
-import 'blocs/language_bloc/bloc.dart';
+import 'blocs/locale_bloc/bloc.dart';
 import 'blocs/sign_in_bloc/bloc.dart';
 import 'blocs/theme_bloc/bloc.dart';
 import 'screens/home_screen.dart';
@@ -21,8 +21,8 @@ void main() {
         BlocProvider<ThemeBloc>(
           builder: (context) => ThemeBloc(),
         ),
-        BlocProvider<LanguageBloc>(
-          builder: (context) => LanguageBloc(),
+        BlocProvider<LocaleBloc>(
+          builder: (context) => LocaleBloc(),
         ),
         BlocProvider<AuthenticationBloc>(
           builder: (context) => AuthenticationBloc()..dispatch(AppStarted()),
@@ -37,7 +37,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(builder: (context, themeState) {
-      return BlocBuilder<LanguageBloc, LanguageState>(
+      return BlocBuilder<LocaleBloc, LocaleState>(
           builder: (context, languageState) {
         return MaterialApp(
           title: 'Tazkrtak',
@@ -58,7 +58,7 @@ class App extends StatelessWidget {
             },
           ),
           locale: languageState.locale,
-          supportedLocales: [Locale('en'), Locale('ar', 'EG')],
+          supportedLocales: [EnglishLocale.LOCALE, ArabicLocale.LOCALE],
           localizationsDelegates: [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,

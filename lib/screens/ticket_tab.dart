@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../blocs/counter_bloc/bloc.dart';
-import '../blocs/language_bloc/language_bloc.dart';
+import '../blocs/locale_bloc/bloc.dart';
 import '../blocs/qr_bloc/bloc.dart';
 import '../blocs/timer_bloc/bloc.dart';
 import '../models/ticket.dart';
@@ -43,6 +43,10 @@ class _TicketTabState extends State<TicketTab> {
 
   @override
   Widget build(BuildContext context) {
+    var locale = BlocProvider.of<LocaleBloc>(context).locale;
+    var intFormatter = NumberFormat("##", locale);
+    var doubleFormatter = NumberFormat("##.##", locale);
+
     return MultiBlocListener(
       listeners: [
         BlocListener<TimerBloc, int>(
@@ -87,14 +91,7 @@ class _TicketTabState extends State<TicketTab> {
                 backgroundColor: Theme.of(context).primaryColorLight,
                 progressColor: Theme.of(context).primaryColor,
                 center: Text(
-                  NumberFormat(
-                          '##',
-                          BlocProvider.of<LanguageBloc>(context)
-                              .currentState
-                              .locale
-                              .toString())
-                      .format(state)
-                      .toString(),
+                  intFormatter.format(state),
                   style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600),
                 ),
               ),
@@ -127,13 +124,7 @@ class _TicketTabState extends State<TicketTab> {
             ),
             SizedBox(height: 16),
             Text(
-              NumberFormat(
-                      '##.##',
-                      BlocProvider.of<LanguageBloc>(context)
-                          .currentState
-                          .locale
-                          .toString())
-                  .format(_total),
+              doubleFormatter.format(_total),
               style: TextStyle(
                 color: Theme.of(context).textTheme.title.color,
                 fontSize: 22,
