@@ -148,6 +148,8 @@ class _SignUpFormState extends State<SignUpForm2> {
           nationalId: SignUpScreen.nationalIdController.text,
           password: SignUpScreen.passwordController.text,
           balance: 0,
+          chargedBalance: 0,
+          lastTransactionId: "",
           secret: TOTP.generateSecret(),
         ),
       ),

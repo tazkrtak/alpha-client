@@ -7,8 +7,13 @@ import 'outlined_text_field.dart';
 class BalanceDialog extends StatelessWidget {
   final VoidCallback onPressed;
   final BuildContext context;
+  final TextEditingController amountController;
 
-  BalanceDialog({this.context, this.onPressed});
+  BalanceDialog({
+    this.context,
+    this.onPressed,
+    this.amountController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +45,7 @@ class BalanceDialog extends StatelessWidget {
               suffixText: AppLocalizations.of(context).translate("currency"),
               textKey: 'paymentAmount',
               keyboardType: TextInputType.number,
+              controller: amountController,
             ),
             SizedBox(height: 16),
             RoundedButton(textKey: 'done', onPressed: onPressed),

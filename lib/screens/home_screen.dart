@@ -5,8 +5,8 @@ import '../blocs/counter_bloc/bloc.dart';
 import '../blocs/qr_bloc/bloc.dart';
 import '../blocs/timer_bloc/bloc.dart';
 import '../blocs/transactions_bloc/bloc.dart';
+import '../blocs/balance_bloc/bloc.dart';
 import '../models/user.dart';
-import '../repos/transaction_repository.dart';
 import '../util/totp.dart';
 import 'ticket_tab.dart';
 import 'wallet_tab.dart';
@@ -69,9 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BlocProvider<TransactionsBloc>(
               builder: (BuildContext context) =>
-                  TransactionsBloc(widget._user, TransactionsRepository())
-                    ..dispatch(LoadTransactions()),
-            )
+                  TransactionsBloc(widget._user)..dispatch(LoadTransactions()),
+            ),
+            BlocProvider<BalanceBloc>(
+                builder: (BuildContext context) => BalanceBloc(widget._user)),
           ],
           child: TabBarView(
             children: <Widget>[

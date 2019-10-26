@@ -10,6 +10,8 @@ class BalanceChart extends StatelessWidget {
 
   final double current;
   final double withdrawn;
+  static final GlobalKey<AnimatedCircularChartState> chartKey =
+      GlobalKey<AnimatedCircularChartState>();
 
   BalanceChart({this.current, this.withdrawn});
 
@@ -20,25 +22,38 @@ class BalanceChart extends StatelessWidget {
 
     return AnimatedCircularChart(
         size: Size(_SIZE, _SIZE),
-        initialChartData: <CircularStackEntry>[
-          CircularStackEntry(
-            <CircularSegmentEntry>[
-              CircularSegmentEntry(
-                withdrawn * (1 / current + withdrawn),
-                Theme.of(context).errorColor,
-                rankKey: 'withdrawn',
-              ),
-              CircularSegmentEntry(
-                current * (1 / current + withdrawn),
-                Theme.of(context).accentColor,
-                rankKey: 'current',
-              ),
-            ],
-            rankKey: 'balance',
-          ),
-        ],
+        key: chartKey,
+        initialChartData: generateData(
+          context: context,
+          withdrawn: withdrawn,
+          current: current,
+        ),
         chartType: CircularChartType.Radial,
         holeLabel: numberFormatter.format(current),
         labelStyle: Theme.of(context).textTheme.display1);
+  }
+
+  static List<CircularStackEntry> generateData({
+    BuildContext context,
+    double withdrawn,
+    double current,
+  }) {
+    return <CircularStackEntry>[
+      CircularStackEntry(
+        <CircularSegmentEntry>[
+          CircularSegmentEntry(
+            withdrawn * (1 / current + withdrawn),
+            Theme.of(context).errorColor,
+            rankKey: 'withdrawn',
+          ),
+          CircularSegmentEntry(
+            current * (1 / current + withdrawn),
+            Theme.of(context).accentColor,
+            rankKey: 'current',
+          ),
+        ],
+        rankKey: 'balance',
+      ),
+    ];
   }
 }
