@@ -7,6 +7,7 @@ class User {
   String nationalId;
   String password;
   double balance;
+  double chargedBalance;
   String secret;
   String lastTransactionId;
 
@@ -17,6 +18,7 @@ class User {
     this.nationalId,
     this.password,
     this.balance,
+    this.chargedBalance,
     this.secret,
     this.lastTransactionId,
   });
@@ -29,6 +31,7 @@ class User {
       nationalId: doc['nationalId'],
       password: doc['password'],
       balance: doc['balance'].toDouble(),
+      chargedBalance:doc['chargedBalance'].toDouble(),
       secret: doc['secret'],
       lastTransactionId: doc['lastTransactionId'],
     );
@@ -42,6 +45,7 @@ class User {
       'nationalId': nationalId,
       'password': password,
       'balance': balance,
+      'chargedBalance':chargedBalance,
       'secret': secret,
       'lastTransactionId': lastTransactionId,
     };
@@ -56,6 +60,7 @@ class User {
       nationalId: $nationalId,
       password: $password,
       balance: $balance,
+      chargedBalance: $chargedBalance,
       secret: $secret,
       lastTransactionId: $lastTransactionId
     }''';

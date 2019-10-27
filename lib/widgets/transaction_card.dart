@@ -125,7 +125,7 @@ class TransactionCard extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 5,
               child: Align(
                 alignment: AlignmentDirectional.centerEnd,
                 child: LimitedBox(

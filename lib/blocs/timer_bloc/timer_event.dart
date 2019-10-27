@@ -10,10 +10,10 @@ class Start extends TimerEvent {
   Start(this.duration) : super([duration]);
 
   @override
-  String toString() => 'StartEvent{duration: $duration}';
+  String toString() => 'Start { duration: $duration }';
 }
 
 class Tick extends TimerEvent {
   @override
-  String toString() => 'TickEvent';
+  String toString() => 'Tick';
 }

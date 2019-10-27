@@ -25,6 +25,16 @@ class Transaction {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'userNationalId': userNationalId,
+      'issuer': issuer,
+      'amount': amount,
+      'timestamp': timestamp,
+    };
+  }
+
   @override
   String toString() {
     return '''Transaction{

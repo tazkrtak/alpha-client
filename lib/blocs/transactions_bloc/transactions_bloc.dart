@@ -8,10 +8,9 @@ import 'bloc.dart';
 
 class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   final User _user;
-  final TransactionsRepository _transactionsRepository;
   StreamSubscription _transactionsSubscription;
 
-  TransactionsBloc(this._user, this._transactionsRepository);
+  TransactionsBloc(this._user);
 
   @override
   TransactionsState get initialState => TransactionLoading();
@@ -27,7 +26,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
 
   Stream<TransactionsState> _mapLoadTransactionsToState() async* {
     _transactionsSubscription?.cancel();
-    _transactionsSubscription = _transactionsRepository
+    _transactionsSubscription = TransactionsRepository
         .getTransactions(_user.nationalId)
         .listen((transactions) => dispatch(UpdateTransactions(transactions)));
   }
