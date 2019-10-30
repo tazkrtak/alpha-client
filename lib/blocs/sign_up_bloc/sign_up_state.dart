@@ -8,17 +8,22 @@ class SignUpState {
   final bool isPhoneNumberValid;
   final bool isPasswordValid;
   final bool isConfirmPasswordValid;
+  final bool isEmailUsed;
+  final bool isNationalIdUsed;
+  final bool isPhoneNumberUsed;
+  final bool isEmailChecked;
+  final bool isNationalIdChecked;
+  final bool isPhoneNumberChecked;
+  final bool isChecking;
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
 
-  bool get isFormValid =>
-      isNameValid &&
-      isEmailValid &&
-      isNationalIdValid &&
-      isPhoneNumberValid &&
-      isPasswordValid &&
-      isConfirmPasswordValid;
+  bool get isEmailUnique => isEmailChecked && !isEmailUsed;
+
+  bool get isPhoneNumberUnique => isPhoneNumberChecked && !isPhoneNumberUsed;
+
+  bool get isNationalIdUnique => isNationalIdChecked && !isNationalIdUsed;
 
   SignUpState({
     this.isNameValid = false,
@@ -27,6 +32,13 @@ class SignUpState {
     this.isPhoneNumberValid = false,
     this.isPasswordValid = false,
     this.isConfirmPasswordValid = false,
+    this.isEmailUsed = false,
+    this.isNationalIdUsed = false,
+    this.isPhoneNumberUsed = false,
+    this.isEmailChecked = false,
+    this.isNationalIdChecked = false,
+    this.isPhoneNumberChecked = false,
+    this.isChecking = false,
     this.isSubmitting = false,
     this.isSuccess = false,
     this.isFailure = false,
@@ -40,6 +52,18 @@ class SignUpState {
       isPhoneNumberValid: true,
       isPasswordValid: true,
       isConfirmPasswordValid: true,
+    );
+  }
+
+  factory SignUpState.checking() {
+    return SignUpState(
+      isNameValid: true,
+      isEmailValid: true,
+      isNationalIdValid: true,
+      isPhoneNumberValid: true,
+      isPasswordValid: true,
+      isConfirmPasswordValid: true,
+      isChecking: true,
     );
   }
 
@@ -80,12 +104,18 @@ class SignUpState {
   }
 
   SignUpState update({
-    bool isNameValid: true,
+    bool isNameValid,
     bool isEmailValid,
     bool isNationalIdValid,
     bool isPhoneNumberValid,
     bool isPasswordValid,
     bool isConfirmPasswordValid,
+    bool isEmailUsed,
+    bool isNationalIdUsed,
+    bool isPhoneNumberUsed,
+    bool isEmailChecked,
+    bool isNationalIdChecked,
+    bool isPhoneNumberChecked,
   }) {
     return copyWith(
       isNameValid: isNameValid,
@@ -94,6 +124,13 @@ class SignUpState {
       isPhoneNumberValid: isPhoneNumberValid,
       isPasswordValid: isPasswordValid,
       isConfirmPasswordValid: isConfirmPasswordValid,
+      isEmailUsed: isEmailUsed,
+      isNationalIdUsed: isNationalIdUsed,
+      isPhoneNumberUsed: isPhoneNumberUsed,
+      isEmailChecked: isEmailChecked,
+      isNationalIdChecked: isNationalIdChecked,
+      isPhoneNumberChecked: isPhoneNumberChecked,
+      isChecking: false,
       isSubmitting: false,
       isSuccess: false,
       isFailure: false,
@@ -107,7 +144,14 @@ class SignUpState {
     bool isPhoneNumberValid,
     bool isPasswordValid,
     bool isConfirmPasswordValid,
+    bool isEmailUsed,
+    bool isNationalIdUsed,
+    bool isPhoneNumberUsed,
+    bool isEmailChecked,
+    bool isNationalIdChecked,
+    bool isPhoneNumberChecked,
     bool isSubmitEnabled,
+    bool isChecking,
     bool isSubmitting,
     bool isSuccess,
     bool isFailure,
@@ -120,6 +164,13 @@ class SignUpState {
       isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       isConfirmPasswordValid:
           isConfirmPasswordValid ?? this.isConfirmPasswordValid,
+      isEmailUsed: isEmailUsed ?? this.isEmailUsed,
+      isNationalIdUsed: isNationalIdUsed ?? this.isNationalIdUsed,
+      isPhoneNumberUsed: isPhoneNumberUsed ?? this.isPhoneNumberUsed,
+      isEmailChecked: isEmailChecked ?? this.isEmailChecked,
+      isNationalIdChecked: isNationalIdChecked ?? this.isNationalIdChecked,
+      isPhoneNumberChecked: isPhoneNumberChecked ?? this.isPhoneNumberChecked,
+      isChecking: isChecking ?? this.isChecking,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
@@ -135,6 +186,13 @@ class SignUpState {
       isPhoneNumberValid: $isPhoneNumberValid,
       isPasswordValid: $isPasswordValid,
       isConfirmPasswordValid: $isConfirmPasswordValid,
+      isEmailUsed: $isEmailUsed,
+      isNationalIdUsed: $isNationalIdUsed,
+      isPhoneNumberUsed, $isPhoneNumberUsed,
+      isEmailChecked: $isEmailChecked,
+      isNationalIdChecked: $isNationalIdChecked,
+      isPhoneNumberChecked: $isPhoneNumberChecked,
+      isChecking: $isChecking,
       isSubmitting: $isSubmitting,
       isSuccess: $isSuccess,
       isFailure: $isFailure,

@@ -23,8 +23,17 @@ class _SignUpFormState extends State<SignUpForm2> {
       SignUpScreen.passwordController.text.isNotEmpty &&
       SignUpScreen.confirmController.text.isNotEmpty;
 
+  bool isFormValid(SignUpState state) {
+    return state.isNationalIdValid &&
+        state.isPasswordValid &&
+        state.isConfirmPasswordValid;
+  }
+
   bool isSignUpButtonEnabled(SignUpState state) {
-    return state.isFormValid && isPopulated && !state.isSubmitting;
+    return isPopulated &&
+        isFormValid(state) &&
+        !state.isChecking &&
+        !state.isSubmitting;
   }
 
   @override
@@ -58,6 +67,23 @@ class _SignUpFormState extends State<SignUpForm2> {
             ),
           );
         }
+        if (state.isNationalIdUnique) {
+          _signUpBloc.dispatch(
+            Submitted(
+              User(
+                name: SignUpScreen.nameController.text,
+                email: SignUpScreen.emailController.text,
+                phoneNumber: SignUpScreen.phoneNumberController.text,
+                nationalId: SignUpScreen.nationalIdController.text,
+                password: SignUpScreen.passwordController.text,
+                balance: 0,
+                chargedBalance: 0,
+                lastTransactionId: "",
+                secret: TOTP.generateSecret(),
+              ),
+            ),
+          );
+        }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).dispatch(SignedIn());
           Navigator.of(context).pop(); // SignUpScreen
@@ -75,9 +101,15 @@ class _SignUpFormState extends State<SignUpForm2> {
                   controller: SignUpScreen.nationalIdController,
                   keyboardType: TextInputType.number,
                   validator: (_) {
-                    return !state.isNationalIdValid
-                        ? AppLocalizations.of(context).translate("invalid_id")
-                        : null;
+                    if (!state.isNationalIdValid) {
+                      return AppLocalizations.of(context)
+                          .translate("invalid_id");
+                    } else if (state.isNationalIdUsed) {
+                      return AppLocalizations.of(context)
+                          .translate("national_id_used");
+                    } else {
+                      return null;
+                    }
                   },
                 ),
                 SizedBox(height: 32.0),
@@ -139,20 +171,7 @@ class _SignUpFormState extends State<SignUpForm2> {
   }
 
   void _onFormSubmitted() {
-    _signUpBloc.dispatch(
-      Submitted(
-        User(
-          name: SignUpScreen.nameController.text,
-          email: SignUpScreen.emailController.text,
-          phoneNumber: SignUpScreen.phoneNumberController.text,
-          nationalId: SignUpScreen.nationalIdController.text,
-          password: SignUpScreen.passwordController.text,
-          balance: 0,
-          chargedBalance: 0,
-          lastTransactionId: "",
-          secret: TOTP.generateSecret(),
-        ),
-      ),
-    );
+    _signUpBloc.dispatch(NationalIdSubmitted(
+        nationalId: SignUpScreen.nationalIdController.text));
   }
 }

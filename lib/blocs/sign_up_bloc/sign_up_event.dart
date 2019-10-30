@@ -68,6 +68,48 @@ class ConfirmPasswordChanged extends SignUpEvent {
   }
 }
 
+class EmailSubmitted extends SignUpEvent {
+  final String email;
+
+  EmailSubmitted({this.email}) : super([email]);
+
+  @override
+  String toString() {
+    return 'EmailSubmitted { email: $email }';
+  }
+}
+
+class NationalIdSubmitted extends SignUpEvent {
+  final String nationalId;
+
+  NationalIdSubmitted({this.nationalId}) : super([nationalId]);
+
+  @override
+  String toString() {
+    return 'NationalIdSubmitted { nationalId: $nationalId }';
+  }
+}
+
+class PhoneNumberSubmitted extends SignUpEvent {
+  final String phoneNumber;
+
+  PhoneNumberSubmitted({this.phoneNumber}) : super([phoneNumber]);
+
+  @override
+  String toString() {
+    return 'PhoneNumberSubmitted { phoneNumber: $phoneNumber }';
+  }
+}
+
+class StartChecking extends SignUpEvent {
+  StartChecking() : super();
+
+  @override
+  String toString() {
+    return 'StartChecking';
+  }
+}
+
 class Submitted extends SignUpEvent {
   final User user;
 
