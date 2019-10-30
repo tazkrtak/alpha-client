@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tazkrtak/models/user.dart';
-import 'package:tazkrtak/repos/feedback_repository.dart';
-import 'package:tazkrtak/widgets/feedback_dialog.dart';
 
 import '../blocs/locale_bloc/bloc.dart';
 import '../blocs/theme_bloc/bloc.dart';
+import '../models/user.dart';
+import '../repos/feedback_repository.dart';
+import '../screens/help_screen.dart';
+import '../widgets/feedback_dialog.dart';
 import '../widgets/modal_tile.dart';
 
 class ModalSheet extends StatelessWidget {
@@ -51,7 +52,10 @@ class ModalSheet extends StatelessWidget {
               textKey: 'help',
               icon: Icons.help_outline,
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HelpScreen()),
+                );
               },
             ),
             ModalTile(
