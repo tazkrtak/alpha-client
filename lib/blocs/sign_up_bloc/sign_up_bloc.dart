@@ -39,17 +39,21 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   @override
-  Stream<SignUpState> mapEventToState(
-    SignUpEvent event,
-  ) async* {
+  Stream<SignUpState> mapEventToState(SignUpEvent event) async* {
     if (event is NameChanged) {
       yield* _mapNameChangedToState(event.name);
     } else if (event is EmailChanged) {
       yield* _mapEmailChangedToState(event.email);
+    } else if (event is EmailSubmitted) {
+      yield* _mapEmailSubmittedToState(event.email);
     } else if (event is NationalIdChanged) {
       yield* _mapNationalIdChangedToState(event.nationalId);
+    } else if (event is NationalIdSubmitted) {
+      yield* _mapNationalIdSubmittedToState(event.nationalId);
     } else if (event is PhoneNumberChanged) {
-      yield* _mapNationalPhoneNumberChangedToState(event.phoneNumber);
+      yield* _mapPhoneNumberChangedToState(event.phoneNumber);
+    } else if (event is PhoneNumberSubmitted) {
+      yield* _mapPhoneNumberSubmittedToState(event.phoneNumber);
     } else if (event is PasswordChanged) {
       yield* _mapPasswordChangedToState(event.password);
     } else if (event is ConfirmPasswordChanged) {
@@ -57,6 +61,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         event.password,
         event.confirmPassword,
       );
+    } else if (event is StartChecking) {
+      yield* _mapStartCheckingToState();
     } else if (event is Submitted) {
       yield* _mapFormSubmittedToState(event.user);
     }
@@ -74,16 +80,37 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     );
   }
 
+  Stream<SignUpState> _mapEmailSubmittedToState(String email) async* {
+    yield currentState.update(
+      isEmailChecked: true,
+      isEmailUsed: await UserRepository.isEmailUsed(email),
+    );
+  }
+
   Stream<SignUpState> _mapNationalIdChangedToState(String nationalId) async* {
     yield currentState.update(
       isNationalIdValid: Validators.isValidNationalId(nationalId),
     );
   }
 
-  Stream<SignUpState> _mapNationalPhoneNumberChangedToState(
-      String phoneNumber) async* {
+  Stream<SignUpState> _mapNationalIdSubmittedToState(String nationalId) async* {
+    yield currentState.update(
+      isNationalIdChecked: true,
+      isNationalIdUsed: await UserRepository.isNationalIdUsed(nationalId),
+    );
+  }
+
+  Stream<SignUpState> _mapPhoneNumberChangedToState(String phoneNumber) async* {
     yield currentState.update(
       isPhoneNumberValid: Validators.isValidPhoneNumber(phoneNumber),
+    );
+  }
+
+  Stream<SignUpState> _mapPhoneNumberSubmittedToState(
+      String phoneNumber) async* {
+    yield currentState.update(
+      isPhoneNumberChecked: true,
+      isPhoneNumberUsed: await UserRepository.isPhoneNumberUsed(phoneNumber),
     );
   }
 
@@ -100,6 +127,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     yield currentState.update(
       isConfirmPasswordValid: password == confirmPassword,
     );
+  }
+
+  Stream<SignUpState> _mapStartCheckingToState() async* {
+    yield SignUpState.checking();
   }
 
   Stream<SignUpState> _mapFormSubmittedToState(User user) async* {
