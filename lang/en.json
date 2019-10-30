@@ -9,6 +9,8 @@
   "done": "Done",
   "email": "Email",
   "fees": "Fees",
+  "feedback_body": "Have any questions, comments or features you'd like to see? Use this form to send your feedback to Tazkrtak Team",
+  "feedback_message": "Write your Feedback...",
   "help": "Help",
   "invalid_email": "Invalid Email.",
   "invalid_id": "Invalid National ID",
