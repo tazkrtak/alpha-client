@@ -177,7 +177,7 @@ class _WalletTabState extends State<WalletTab> {
   void _onModalButtonPressed() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => ModalSheet(),
+      builder: (context) => ModalSheet(widget._user),
     );
   }
 }
