@@ -88,7 +88,7 @@ class _SignInFormState extends State<_SignInForm> {
                     backgroundColor: Colors.transparent,
                     radius: 64,
                   ),
-                  SizedBox(height: 32.0),
+                  SizedBox(height: 48.0),
                   OutlinedTextField(
                     textKey: 'national_id',
                     keyboardType: TextInputType.number,
