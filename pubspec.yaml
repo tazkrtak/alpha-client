@@ -21,6 +21,7 @@ dependencies:
   flutter_circular_chart: ^0.1.0
   flutter_rating_bar: ^3.0.0
   flutter_launcher_icons: ^0.7.3
+  flutter_linkify: ^2.1.0
   holding_gesture: ^0.0.3
   intl: ^0.15.8
   meta: ^1.1.6
@@ -28,6 +29,7 @@ dependencies:
   percent_indicator: ^2.1.1
   qr_flutter: ^3.0.1
   shared_preferences: 0.5.3+4
+  url_launcher: ^5.2.0
 
 dev_dependencies:
   flutter_test:

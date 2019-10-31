@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tazkrtak/util/app_localizations.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../util/app_localizations.dart';
 
 class HelpScreen extends StatelessWidget {
   @override
@@ -44,8 +47,16 @@ class HelpScreen extends StatelessWidget {
                 SizedBox(height: 8),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text(
-                    'tazkrtak.web.app',
+                  child: Linkify(
+                    onOpen: (link) async {
+                      if (await canLaunch(link.url)) {
+                        await launch(link.url);
+                      } else {
+                        throw 'Could not launch $link';
+                      }
+                    },
+                    humanize: true,
+                    text: "https://tazkrtak.web.app",
                     style: TextStyle(
                       color: Theme.of(context).textTheme.title.color,
                       fontSize: 24,
